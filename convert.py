@@ -90,19 +90,15 @@ class SpreadSheet:
         i = 0
         for row in readdata:
 
-            # if i==124:
-            #     print(row)
-            # print (row)
+            # print(row)
 
             # Ignore the header row
             if row[1] != 'Item Type':
                 di[i] = row
                 i += 1
-                # print(row)
-                # exit(0)
 
         # num or records discovered
-        print(len(di))
+        print("Found records: " + str(len(di)))
         #
         # print(di[0])
         # print(di[122])
@@ -149,10 +145,12 @@ class SpreadSheet:
             self.oDi[key]['dc.language.iso[en]'] = self.csvRow[28]
 
             # dc.contributor.author
-            self.create_authors(key, [3])
+            # self.create_authors(key, [3])
+            self.create_metadata_with_language(key, [3], "dc.contributor.author")
 
             # dc.contributor.translator
-            self.create_translator(key, [43])
+            # self.create_translator(key, [43])
+            self.create_metadata_with_language(key, [43], "dc.contributor.translator")
 
             # dc.title
             self.create_title(key, [4])
@@ -188,7 +186,8 @@ class SpreadSheet:
             self.oDi[key]['dc.description.totalnumpages[]'] = self.csvRow[16].strip()
 
             # dc.subject
-            self.create_subjects(key, [39])
+            # self.create_subjects(key, [39])
+            self.create_metadata_with_language(key, [39], "dc.subject")
 
             # dc.description.abstract
             self.create_description_abstract(key, [10])
@@ -443,27 +442,70 @@ class SpreadSheet:
         str = re.sub(r'[^0-9X\-]', "", str)
         return str
 
-    def create_translator(self, key, var_list=None):
-        # create a list of translator keys by language
-        translators = OrderedDict()
-        for lang in self.searched_for_languages:
-            k = "dc.contributor.translator[" + lang + "]"
-            translators[k] = ''
 
+    '''
+    metadata_val should have a value like dc.contributor.translator
+    '''
+    def create_metadata_with_language(self, key, var_list=None, metadata_val=None):
+        if metadata_val is None:
+            raise ValueError('Metadata field not set')
+
+        # create a list of created_field keys by language
+        # create a list of author keys by language like dc.contributor.author[el]
+        meta_field = OrderedDict()
+        for lang in self.searched_for_languages:
+            k = metadata_val + "[" + lang + "]"
+            meta_field[k] = ''
+        # print(authors)
+
+        # Convert all vars to list, and additionally separate any repeating fields with a semi-colon
         tmp_list = []
         for var in var_list:
-            tmp_list.append(self.csvRow[var].strip())
+            # print(var)
+            # print(self.csvRow[var].split(";"))
+            tmp_list += self.csvRow[var].split(";")
         tmp_list = list(filter(None, tmp_list))  # remove empty list elements
 
-        for item in tmp_list:
-            k = "dc.contributor.translator[" + self.detect_language(item) + "]"
-            if not translators[k]:
-                translators[k] = item
-            else:
-                translators[k] += '||' + item
+        # print(tmp_list)
 
-        for k, v in translators.items():
+        for item in tmp_list:
+            item = item.strip()
+            k = metadata_val + "[" + self.detect_language(item) + "]"
+            if not meta_field[k]:
+                meta_field[k] = item
+            else:
+                meta_field[k] += '||' + item
+
+        for k, v in meta_field.items():
             self.oDi[key][k] = v
+
+
+
+
+
+
+
+    # def create_translator(self, key, var_list=None):
+    #     # create a list of translator keys by language
+    #     translators = OrderedDict()
+    #     for lang in self.searched_for_languages:
+    #         k = "dc.contributor.translator[" + lang + "]"
+    #         translators[k] = ''
+    #
+    #     tmp_list = []
+    #     for var in var_list:
+    #         tmp_list.append(self.csvRow[var].strip())
+    #     tmp_list = list(filter(None, tmp_list))  # remove empty list elements
+    #
+    #     for item in tmp_list:
+    #         k = "dc.contributor.translator[" + self.detect_language(item) + "]"
+    #         if not translators[k]:
+    #             translators[k] = item
+    #         else:
+    #             translators[k] += '||' + item
+    #
+    #     for k, v in translators.items():
+    #         self.oDi[key][k] = v
 
     def create_editor(self, key, var_list=None):
         # create a list of editor keys by language
@@ -596,29 +638,29 @@ class SpreadSheet:
         for k, v in abstracts.items():
             self.oDi[key][k] = v
 
-    def create_subjects(self, key, var_list=None):
-        # create a list of subject keys by language like dc.description.issue[[el]
-        subjects = OrderedDict()
-        for lang in self.searched_for_languages:
-            k = "dc.subject[" + lang + "]"
-            subjects[k] = ''
-        # print(subjects)
-        tmp_list = []
-        for var in var_list:
-            tmp_list += self.csvRow[var].split(";")
-        tmp_list = list(filter(None, tmp_list))  # remove empty list elements
-
-        for item in tmp_list:
-            item = item.strip()
-            k = "dc.subject[" + self.detect_language(item) + "]"
-            item = self.normalize_string(item)
-            if not subjects[k]:
-                subjects[k] = item
-            else:
-                subjects[k] += '||' + item
-
-        for k, v in subjects.items():
-            self.oDi[key][k] = v.strip()
+    # def create_subjects(self, key, var_list=None):
+    #     # create a list of subject keys by language like dc.description.issue[[el]
+    #     subjects = OrderedDict()
+    #     for lang in self.searched_for_languages:
+    #         k = "dc.subject[" + lang + "]"
+    #         subjects[k] = ''
+    #     # print(subjects)
+    #     tmp_list = []
+    #     for var in var_list:
+    #         tmp_list += self.csvRow[var].split(";")
+    #     tmp_list = list(filter(None, tmp_list))  # remove empty list elements
+    #
+    #     for item in tmp_list:
+    #         item = item.strip()
+    #         k = "dc.subject[" + self.detect_language(item) + "]"
+    #         item = self.normalize_string(item)
+    #         if not subjects[k]:
+    #             subjects[k] = item
+    #         else:
+    #             subjects[k] += '||' + item
+    #
+    #     for k, v in subjects.items():
+    #         self.oDi[key][k] = v.strip()
 
     def create_issue(self, key, var_list=None):
         # create a list of issue keys by language like dc.description.issue[[el]
@@ -752,37 +794,34 @@ class SpreadSheet:
         for k, v in titles.items():
             self.oDi[key][k] = v
 
-    def create_authors(self, key, var_list=None):
-        # create a list of author keys by language like dc.contributor.author[el]
-        authors = OrderedDict()
-        for lang in self.searched_for_languages:
-            k = "dc.contributor.author[" + lang + "]"
-            authors[k] = ''
-
-        # print(authors)
-        # complete_header_list.append(field + "[" + lang + "]")
-        # Convert all vars to list, and additionally separate any repeating fields with a semi-colon
-        tmp_list = []
-        for var in var_list:
-            # print(var)
-            # print(self.csvRow[var].split(";"))
-            tmp_list += self.csvRow[var].split(";")
-        tmp_list = list(filter(None, tmp_list))  # remove empty list elements
-
-        # print(tmp_list)
-
-        for item in tmp_list:
-            item = item.strip()
-            k = "dc.contributor.author[" + self.detect_language(item) + "]"
-            if not authors[k]:
-                authors[k] = item
-            else:
-                authors[k] += '||' + item
-
-            # print(self.detect_language(item))
-        # print(authors)
-        for k, v in authors.items():
-            self.oDi[key][k] = v
+    # def create_authors(self, key, var_list=None):
+    #     # create a list of author keys by language like dc.contributor.author[el]
+    #     authors = OrderedDict()
+    #     for lang in self.searched_for_languages:
+    #         k = "dc.contributor.author[" + lang + "]"
+    #         authors[k] = ''
+    #     # print(authors)
+    #
+    #     # Convert all vars to list, and additionally separate any repeating fields with a semi-colon
+    #     tmp_list = []
+    #     for var in var_list:
+    #         # print(var)
+    #         # print(self.csvRow[var].split(";"))
+    #         tmp_list += self.csvRow[var].split(";")
+    #     tmp_list = list(filter(None, tmp_list))  # remove empty list elements
+    #
+    #     # print(tmp_list)
+    #
+    #     for item in tmp_list:
+    #         item = item.strip()
+    #         k = "dc.contributor.author[" + self.detect_language(item) + "]"
+    #         if not authors[k]:
+    #             authors[k] = item
+    #         else:
+    #             authors[k] += '||' + item
+    #
+    #     for k, v in authors.items():
+    #         self.oDi[key][k] = v
 
     def detect_language(self, str):
 
