@@ -153,13 +153,16 @@ class SpreadSheet:
             self.create_metadata_with_language(key, [43], "dc.contributor.translator")
 
             # dc.title
-            self.create_title(key, [4])
+            # self.create_title(key, [4])
+            self.create_metadata_with_language(key, [4], "dc.title")
 
             # dc.source
-            self.create_source(key, [5, 71])
+            # self.create_source(key, [5, 71])
+            self.create_metadata_with_language(key, [5, 71], "dc.source")
 
             # dc.source.abbreviation
-            self.create_source_abbreviation(key, [20])
+            # self.create_source_abbreviation(key, [20])
+            self.create_metadata_with_language(key, [20], "dc.source.abbreviation")
 
             # dc.source.other
             # self.create_source(key, [39])
@@ -171,10 +174,12 @@ class SpreadSheet:
             # self.oDi[key]['dc.date.available[]'] = self.csvRow[6].strip()
 
             # dc.description.volume
-            self.create_volume(key, [18])
+            # self.create_volume(key, [18])
+            self.create_metadata_with_language(key, [18], "dc.description.volume")
 
             # dc.description.issue
-            self.create_issue(key, [17])
+            # self.create_issue(key, [17])
+            self.create_metadata_with_language(key, [17], "dc.description.issue")
 
             # dc.description.startingpage
             self.oDi[key]['dc.description.startingpage[]'] = self.create_startingpage(15)
@@ -190,19 +195,24 @@ class SpreadSheet:
             self.create_metadata_with_language(key, [39], "dc.subject")
 
             # dc.description.abstract
-            self.create_description_abstract(key, [10])
+            # self.create_description_abstract(key, [10])
+            self.create_metadata_with_language(key, [10], "dc.description.abstract")
 
             # dc.description.notes
-            self.create_description(key, [36])
+            # self.create_description(key, [36])
+            self.create_metadata_with_language(key, [36], "dc.description.notes")
 
             # dc.description.edition
-            self.create_edition(key, [71])
+            # self.create_edition(key, [71])
+            self.create_metadata_with_language(key, [71], "dc.description.edition")
 
             # dc.publisher
-            self.create_publisher(key, [26])
+            # self.create_publisher(key, [26])
+            self.create_metadata_with_language(key, [26], "dc.publisher")
 
             # dc.coverage.spatial
-            self.create_spatial(key, [27])
+            # self.create_spatial(key, [27])
+            self.create_metadata_with_language(key, [27], "dc.coverage.spatial")
 
             # dc.identifier
             # self.oDi[key]['dc.identifier[]'] = self.csvRow[24].strip()
@@ -212,6 +222,7 @@ class SpreadSheet:
             # self.oDi[key]['dc.identifier.other[]'] = self.generate_repeative_fields([27, 29])
 
             # dc.identifier.lc[]
+            # SPECIAL
             self.create_lc(key, [34])
 
             # dc.language.iso
@@ -227,7 +238,8 @@ class SpreadSheet:
             self.oDi[key]['dc.identifier.doi[]'] = self.csvRow[8].strip()
 
             # dc.contributor.editor
-            self.create_editor(key, [41, 42])
+            # self.create_editor(key, [41, 42])
+            self.create_metadata_with_language(key, [41, 42], "dc.contributor.editor")
 
             """
                 dc.identifier.isbn	International Standard Book Number
@@ -507,136 +519,136 @@ class SpreadSheet:
     #     for k, v in translators.items():
     #         self.oDi[key][k] = v
 
-    def create_editor(self, key, var_list=None):
-        # create a list of editor keys by language
-        editors = OrderedDict()
-        for lang in self.searched_for_languages:
-            k = "dc.contributor.editor[" + lang + "]"
-            editors[k] = ''
+    # def create_editor(self, key, var_list=None):
+    #     # create a list of editor keys by language
+    #     editors = OrderedDict()
+    #     for lang in self.searched_for_languages:
+    #         k = "dc.contributor.editor[" + lang + "]"
+    #         editors[k] = ''
+    #
+    #     tmp_list = []
+    #     for var in var_list:
+    #         tmp_list += self.csvRow[var].split(";")
+    #     tmp_list = list(filter(None, tmp_list))  # remove empty list elements
+    #
+    #     for item in tmp_list:
+    #         item = item.strip()
+    #         k = "dc.contributor.editor[" + self.detect_language(item) + "]"
+    #         if not editors[k]:
+    #             editors[k] = item
+    #         else:
+    #             editors[k] += '||' + item
+    #
+    #     for k, v in editors.items():
+    #         self.oDi[key][k] = v
 
-        tmp_list = []
-        for var in var_list:
-            tmp_list += self.csvRow[var].split(";")
-        tmp_list = list(filter(None, tmp_list))  # remove empty list elements
+    # def create_spatial(self, key, var_list=None):
+    #     # create a list of spatial keys by language
+    #     spatial = OrderedDict()
+    #     for lang in self.searched_for_languages:
+    #         k = "dc.coverage.spatial[" + lang + "]"
+    #         spatial[k] = ''
+    #
+    #     tmp_list = []
+    #     for var in var_list:
+    #         tmp_list.append(self.csvRow[var].strip())
+    #     tmp_list = list(filter(None, tmp_list))  # remove empty list elements
+    #
+    #     for item in tmp_list:
+    #         k = "dc.coverage.spatial[" + self.detect_language(item) + "]"
+    #         if not spatial[k]:
+    #             spatial[k] = item
+    #         else:
+    #             spatial[k] += '||' + item
+    #
+    #     for k, v in spatial.items():
+    #         self.oDi[key][k] = v
 
-        for item in tmp_list:
-            item = item.strip()
-            k = "dc.contributor.editor[" + self.detect_language(item) + "]"
-            if not editors[k]:
-                editors[k] = item
-            else:
-                editors[k] += '||' + item
+    # def create_publisher(self, key, var_list=None):
+    #     # create a list of publisher keys by language like dc.publisher[el]
+    #     publisher = OrderedDict()
+    #     for lang in self.searched_for_languages:
+    #         k = "dc.publisher[" + lang + "]"
+    #         publisher[k] = ''
+    #
+    #     tmp_list = []
+    #     for var in var_list:
+    #         tmp_list.append(self.csvRow[var].strip())
+    #     tmp_list = list(filter(None, tmp_list))  # remove empty list elements
+    #
+    #     for item in tmp_list:
+    #         k = "dc.publisher[" + self.detect_language(item) + "]"
+    #         if not publisher[k]:
+    #             publisher[k] = item
+    #         else:
+    #             publisher[k] += '||' + item
+    #
+    #     for k, v in publisher.items():
+    #         self.oDi[key][k] = v
 
-        for k, v in editors.items():
-            self.oDi[key][k] = v
+    # def create_edition(self, key, var_list=None):
+    #     # create a list of edition keys by language like dc.description.edition[el]
+    #     edition = OrderedDict()
+    #     for lang in self.searched_for_languages:
+    #         k = "dc.description.edition[" + lang + "]"
+    #         edition[k] = ''
+    #     tmp_list = []
+    #     for var in var_list:
+    #         tmp_list.append(self.csvRow[var].strip())
+    #     tmp_list = list(filter(None, tmp_list))  # remove empty list elements
+    #
+    #     for item in tmp_list:
+    #         k = "dc.description.edition[" + self.detect_language(item) + "]"
+    #         if not edition[k]:
+    #             edition[k] = item
+    #         else:
+    #             edition[k] += '||' + item
+    #
+    #     for k, v in edition.items():
+    #         self.oDi[key][k] = v
 
-    def create_spatial(self, key, var_list=None):
-        # create a list of spatial keys by language
-        spatial = OrderedDict()
-        for lang in self.searched_for_languages:
-            k = "dc.coverage.spatial[" + lang + "]"
-            spatial[k] = ''
+    # def create_description(self, key, var_list=None):
+    #     # create a list of description keys by language like dc.description.notes[el]
+    #     description = OrderedDict()
+    #     for lang in self.searched_for_languages:
+    #         k = "dc.description.notes[" + lang + "]"
+    #         description[k] = ''
+    #     tmp_list = []
+    #     for var in var_list:
+    #         tmp_list.append(self.csvRow[var].strip())
+    #     tmp_list = list(filter(None, tmp_list))  # remove empty list elements
+    #
+    #     for item in tmp_list:
+    #         k = "dc.description.notes[" + self.detect_language(item) + "]"
+    #         if not description[k]:
+    #             description[k] = item
+    #         else:
+    #             description[k] += '||' + item
+    #
+    #     for k, v in description.items():
+    #         self.oDi[key][k] = v
 
-        tmp_list = []
-        for var in var_list:
-            tmp_list.append(self.csvRow[var].strip())
-        tmp_list = list(filter(None, tmp_list))  # remove empty list elements
-
-        for item in tmp_list:
-            k = "dc.coverage.spatial[" + self.detect_language(item) + "]"
-            if not spatial[k]:
-                spatial[k] = item
-            else:
-                spatial[k] += '||' + item
-
-        for k, v in spatial.items():
-            self.oDi[key][k] = v
-
-    def create_publisher(self, key, var_list=None):
-        # create a list of publisher keys by language like dc.publisher[el]
-        publisher = OrderedDict()
-        for lang in self.searched_for_languages:
-            k = "dc.publisher[" + lang + "]"
-            publisher[k] = ''
-
-        tmp_list = []
-        for var in var_list:
-            tmp_list.append(self.csvRow[var].strip())
-        tmp_list = list(filter(None, tmp_list))  # remove empty list elements
-
-        for item in tmp_list:
-            k = "dc.publisher[" + self.detect_language(item) + "]"
-            if not publisher[k]:
-                publisher[k] = item
-            else:
-                publisher[k] += '||' + item
-
-        for k, v in publisher.items():
-            self.oDi[key][k] = v
-
-    def create_edition(self, key, var_list=None):
-        # create a list of edition keys by language like dc.description.edition[el]
-        edition = OrderedDict()
-        for lang in self.searched_for_languages:
-            k = "dc.description.edition[" + lang + "]"
-            edition[k] = ''
-        tmp_list = []
-        for var in var_list:
-            tmp_list.append(self.csvRow[var].strip())
-        tmp_list = list(filter(None, tmp_list))  # remove empty list elements
-
-        for item in tmp_list:
-            k = "dc.description.edition[" + self.detect_language(item) + "]"
-            if not edition[k]:
-                edition[k] = item
-            else:
-                edition[k] += '||' + item
-
-        for k, v in edition.items():
-            self.oDi[key][k] = v
-
-    def create_description(self, key, var_list=None):
-        # create a list of description keys by language like dc.description.notes[el]
-        description = OrderedDict()
-        for lang in self.searched_for_languages:
-            k = "dc.description.notes[" + lang + "]"
-            description[k] = ''
-        tmp_list = []
-        for var in var_list:
-            tmp_list.append(self.csvRow[var].strip())
-        tmp_list = list(filter(None, tmp_list))  # remove empty list elements
-
-        for item in tmp_list:
-            k = "dc.description.notes[" + self.detect_language(item) + "]"
-            if not description[k]:
-                description[k] = item
-            else:
-                description[k] += '||' + item
-
-        for k, v in description.items():
-            self.oDi[key][k] = v
-
-    def create_description_abstract(self, key, var_list=None):
-        # create a list of abstracts keys by language like dc.description.abstract[[el]
-        abstracts = OrderedDict()
-        for lang in self.searched_for_languages:
-            k = "dc.description.abstract[" + lang + "]"
-            abstracts[k] = ''
-
-        tmp_list = []
-        for var in var_list:
-            tmp_list.append(self.csvRow[var].strip())
-        tmp_list = list(filter(None, tmp_list))  # remove empty list elements
-
-        for item in tmp_list:
-            k = "dc.description.abstract[" + self.detect_language(item) + "]"
-            if not abstracts[k]:
-                abstracts[k] = item
-            else:
-                abstracts[k] += '||' + item
-
-        for k, v in abstracts.items():
-            self.oDi[key][k] = v
+    # def create_description_abstract(self, key, var_list=None):
+    #     # create a list of abstracts keys by language like dc.description.abstract[[el]
+    #     abstracts = OrderedDict()
+    #     for lang in self.searched_for_languages:
+    #         k = "dc.description.abstract[" + lang + "]"
+    #         abstracts[k] = ''
+    #
+    #     tmp_list = []
+    #     for var in var_list:
+    #         tmp_list.append(self.csvRow[var].strip())
+    #     tmp_list = list(filter(None, tmp_list))  # remove empty list elements
+    #
+    #     for item in tmp_list:
+    #         k = "dc.description.abstract[" + self.detect_language(item) + "]"
+    #         if not abstracts[k]:
+    #             abstracts[k] = item
+    #         else:
+    #             abstracts[k] += '||' + item
+    #
+    #     for k, v in abstracts.items():
+    #         self.oDi[key][k] = v
 
     # def create_subjects(self, key, var_list=None):
     #     # create a list of subject keys by language like dc.description.issue[[el]
@@ -662,71 +674,71 @@ class SpreadSheet:
     #     for k, v in subjects.items():
     #         self.oDi[key][k] = v.strip()
 
-    def create_issue(self, key, var_list=None):
-        # create a list of issue keys by language like dc.description.issue[[el]
-        issues = OrderedDict()
-        for lang in self.searched_for_languages:
-            k = "dc.description.issue[" + lang + "]"
-            issues[k] = ''
+    # def create_issue(self, key, var_list=None):
+    #     # create a list of issue keys by language like dc.description.issue[[el]
+    #     issues = OrderedDict()
+    #     for lang in self.searched_for_languages:
+    #         k = "dc.description.issue[" + lang + "]"
+    #         issues[k] = ''
+    #
+    #     tmp_list = []
+    #     for var in var_list:
+    #         tmp_list.append(self.csvRow[var].strip())
+    #     tmp_list = list(filter(None, tmp_list))  # remove empty list elements
+    #
+    #     for item in tmp_list:
+    #         k = "dc.description.issue[" + self.detect_language(item) + "]"
+    #         if not issues[k]:
+    #             issues[k] = item
+    #         else:
+    #             issues[k] += '||' + item
+    #
+    #     for k, v in issues.items():
+    #         self.oDi[key][k] = v
 
-        tmp_list = []
-        for var in var_list:
-            tmp_list.append(self.csvRow[var].strip())
-        tmp_list = list(filter(None, tmp_list))  # remove empty list elements
+    # def create_volume(self, key, var_list=None):
+    #     # create a list of volume keys by language like dc.description.volume[[el]
+    #     volumes = OrderedDict()
+    #     for lang in self.searched_for_languages:
+    #         k = "dc.description.volume[" + lang + "]"
+    #         volumes[k] = ''
+    #     tmp_list = []
+    #     for var in var_list:
+    #         tmp_list.append(self.csvRow[var].strip())
+    #     tmp_list = list(filter(None, tmp_list))  # remove empty list elements
+    #
+    #     for item in tmp_list:
+    #         k = "dc.description.volume[" + self.detect_language(item) + "]"
+    #         if not volumes[k]:
+    #             volumes[k] = item
+    #         else:
+    #             volumes[k] += '||' + item
+    #
+    #     for k, v in volumes.items():
+    #         self.oDi[key][k] = v
 
-        for item in tmp_list:
-            k = "dc.description.issue[" + self.detect_language(item) + "]"
-            if not issues[k]:
-                issues[k] = item
-            else:
-                issues[k] += '||' + item
-
-        for k, v in issues.items():
-            self.oDi[key][k] = v
-
-    def create_volume(self, key, var_list=None):
-        # create a list of volume keys by language like dc.description.volume[[el]
-        volumes = OrderedDict()
-        for lang in self.searched_for_languages:
-            k = "dc.description.volume[" + lang + "]"
-            volumes[k] = ''
-        tmp_list = []
-        for var in var_list:
-            tmp_list.append(self.csvRow[var].strip())
-        tmp_list = list(filter(None, tmp_list))  # remove empty list elements
-
-        for item in tmp_list:
-            k = "dc.description.volume[" + self.detect_language(item) + "]"
-            if not volumes[k]:
-                volumes[k] = item
-            else:
-                volumes[k] += '||' + item
-
-        for k, v in volumes.items():
-            self.oDi[key][k] = v
-
-    def create_source_abbreviation(self, key, var_list=None):
-        # create a list of title keys by language like dc.title[el]
-        sources = OrderedDict()
-        for lang in self.searched_for_languages:
-            k = "dc.source.abbreviation[" + lang + "]"
-            sources[k] = ''
-
-        tmp_list = []
-        for var in var_list:
-            tmp_list += self.csvRow[var].split(";")
-        tmp_list = list(filter(None, tmp_list))  # remove empty list elements
-
-        for item in tmp_list:
-            item = item.strip()
-            k = "dc.source.abbreviation[" + self.detect_language(item) + "]"
-            if not sources[k]:
-                sources[k] = item
-            else:
-                sources[k] += '||' + item
-
-        for k, v in sources.items():
-            self.oDi[key][k] = v
+    # def create_source_abbreviation(self, key, var_list=None):
+    #     # create a list of title keys by language like dc.title[el]
+    #     sources = OrderedDict()
+    #     for lang in self.searched_for_languages:
+    #         k = "dc.source.abbreviation[" + lang + "]"
+    #         sources[k] = ''
+    #
+    #     tmp_list = []
+    #     for var in var_list:
+    #         tmp_list += self.csvRow[var].split(";")
+    #     tmp_list = list(filter(None, tmp_list))  # remove empty list elements
+    #
+    #     for item in tmp_list:
+    #         item = item.strip()
+    #         k = "dc.source.abbreviation[" + self.detect_language(item) + "]"
+    #         if not sources[k]:
+    #             sources[k] = item
+    #         else:
+    #             sources[k] += '||' + item
+    #
+    #     for k, v in sources.items():
+    #         self.oDi[key][k] = v
 
     def create_source_other(self, key, var_list=None):
         # create a list of title keys by language like dc.title[el]
@@ -750,49 +762,49 @@ class SpreadSheet:
         for k, v in sources.items():
             self.oDi[key][k] = v
 
-    def create_source(self, key, var_list=None):
-        # create a list of title keys by language like dc.title[el]
-        sources = OrderedDict()
-        for lang in self.searched_for_languages:
-            k = "dc.source[" + lang + "]"
-            sources[k] = ''
+    # def create_source(self, key, var_list=None):
+    #     # create a list of title keys by language like dc.title[el]
+    #     sources = OrderedDict()
+    #     for lang in self.searched_for_languages:
+    #         k = "dc.source[" + lang + "]"
+    #         sources[k] = ''
+    #
+    #     tmp_list = []
+    #     for var in var_list:
+    #         tmp_list.append(self.csvRow[var].strip())
+    #     tmp_list = list(filter(None, tmp_list))  # remove empty list elements
+    #
+    #     for item in tmp_list:
+    #         k = "dc.source[" + self.detect_language(item) + "]"
+    #         if not sources[k]:
+    #             sources[k] = item
+    #         else:
+    #             sources[k] += '||' + item
+    #
+    #     for k, v in sources.items():
+    #         self.oDi[key][k] = v
 
-        tmp_list = []
-        for var in var_list:
-            tmp_list.append(self.csvRow[var].strip())
-        tmp_list = list(filter(None, tmp_list))  # remove empty list elements
-
-        for item in tmp_list:
-            k = "dc.source[" + self.detect_language(item) + "]"
-            if not sources[k]:
-                sources[k] = item
-            else:
-                sources[k] += '||' + item
-
-        for k, v in sources.items():
-            self.oDi[key][k] = v
-
-    def create_title(self, key, var_list=None):
-        # create a list of title keys by language like dc.title[el]
-        titles = OrderedDict()
-        for lang in self.searched_for_languages:
-            k = "dc.title[" + lang + "]"
-            titles[k] = ''
-
-        tmp_list = []
-        for var in var_list:
-            tmp_list.append(self.csvRow[var].strip())
-        tmp_list = list(filter(None, tmp_list))  # remove empty list elements
-
-        for item in tmp_list:
-            k = "dc.title[" + self.detect_language(item) + "]"
-            if not titles[k]:
-                titles[k] = item
-            else:
-                titles[k] += '||' + item
-
-        for k, v in titles.items():
-            self.oDi[key][k] = v
+    # def create_title(self, key, var_list=None):
+    #     # create a list of title keys by language like dc.title[el]
+    #     titles = OrderedDict()
+    #     for lang in self.searched_for_languages:
+    #         k = "dc.title[" + lang + "]"
+    #         titles[k] = ''
+    #
+    #     tmp_list = []
+    #     for var in var_list:
+    #         tmp_list.append(self.csvRow[var].strip())
+    #     tmp_list = list(filter(None, tmp_list))  # remove empty list elements
+    #
+    #     for item in tmp_list:
+    #         k = "dc.title[" + self.detect_language(item) + "]"
+    #         if not titles[k]:
+    #             titles[k] = item
+    #         else:
+    #             titles[k] += '||' + item
+    #
+    #     for k, v in titles.items():
+    #         self.oDi[key][k] = v
 
     # def create_authors(self, key, var_list=None):
     #     # create a list of author keys by language like dc.contributor.author[el]
