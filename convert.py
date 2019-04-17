@@ -659,6 +659,23 @@ class SpreadSheet:
              'report': 'Report'
              }
 
+        with open('./settings/types.yml', 'r') as typefile:
+            cfg = yaml.load(typefile)
+
+        types = cfg['types']
+        print(types)
+        # self.enrich_orgs = orgs
+        # for k, v in orgs:
+        #     print(v)
+        #     # self.enrich_fqdn.append(v)
+
+        # TODO: define function
+        # call as self.enrich_type(<A STRING TYPE from zotero>)
+        # def enrich_type(self, str):
+        #     if str in self.rename_types:
+        #         return self.rename_types[str]
+
+
         if self.csvRow[type_column] in d.keys():
             self.csvRow[type_column] = d[self.csvRow[type_column]]
 
