@@ -523,8 +523,6 @@ class SpreadSheet:
         for k, v in sources.items():
             self.oDi[key][k] = v
 
-
-
     def detect_language(self, str):
         """
            Detect language of given string. 
