@@ -461,6 +461,12 @@ class SpreadSheet:
     metadata_val should have a value like dc.contributor.translator
     '''
     def create_metadata_with_language(self, key, var_list=None, metadata_val=None):
+        """
+           Convert Zotero value to corresponding DSpace metadata
+            :param int key: An integer of currently processed item row. Corresponds to CSV file rows.
+            :param list var_list: A list with column numbers to be used from Zotero csv file (multiple)
+            :param str metadata_val: The DSpace metadata value to be created (e.g. dc.title)
+          """
         if metadata_val is None:
             raise ValueError('Metadata field not set')
 
