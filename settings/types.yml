@@ -1,0 +1,10 @@
+types:
+  CyprusAid: www.cyprusaid.gov.cy
+  Tenders Review Authority: www.tra.gov.cy
+  bookSection: Book Chapter
+  book: Book
+  conferencePaper: Conference Object
+  thesis: Doctoral Thesis
+  journalArticle: Article
+  report: Report
+  patent: Patent
