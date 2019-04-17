@@ -300,12 +300,13 @@ class SpreadSheet:
     # print(str(key) + ': ' + value[23])
 
     def normalize_string(self, str):
-        '''
-        :param str:
-        :return str:
-
+        """
         Return a string with the first letter capital, rest lower case.
-        '''
+
+        :param str str: A given string:
+        :return: A normalized string
+        :rtype: str
+        """
         return str[:1].upper() + str[1:].lower()
 
     def create_startingpage(self, var_list=None):
