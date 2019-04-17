@@ -525,7 +525,7 @@ class SpreadSheet:
 
 
 
-    def detect_language(self, str)
+    def detect_language(self, str):
         """
            Detect language of given string. 
            First, attempt to detect language with langid. Langid uses probabilities, so if probability score is low,
