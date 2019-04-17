@@ -554,7 +554,7 @@ class SpreadSheet:
         #     print(str_langid)
         '''
         If the statistical probability of a detected language is larger than
-        0.6, return that language, if it is included in langid_languages.
+        0.9999, return that language, if it is included in langid_languages.
         If not, set it equal to 'en'.
         '''
 
