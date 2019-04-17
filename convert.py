@@ -16,6 +16,7 @@ from stdnum import isbn, issn
 output_file = 'output.csv'
 input_file = 'input.csv'
 handle = '7/1234'
+ZOTERO_LANGUAGES = 'languages_zotero.csv'
 
 
 class SpreadSheet:
@@ -41,9 +42,9 @@ class SpreadSheet:
     def loadLanguages(self):
 
         try:
-            readdata = csv.reader(open('languages_zotero.csv'))
+            readdata = csv.reader(open(ZOTERO_LANGUAGES))
         except FileNotFoundError:
-            print('File not found: ' + self.input_file)
+            print('Zotero language file not found: ' + ZOTERO_LANGUAGES)
             sys.exit()
         self.languages_iso = {rows[0]: rows[1] for rows in readdata}
         # print(self.languages_iso)
@@ -83,6 +84,7 @@ class SpreadSheet:
         # lol = list(csv.reader(open('text.txt', 'rb'), delimiter='\t'))
 
         try:
+            print(self.input_file)
             readdata = csv.reader(open(self.input_file), delimiter=',', quotechar='"')
         except FileNotFoundError:
             print('File not found: ' + self.input_file)
