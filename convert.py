@@ -12,6 +12,7 @@ import sys
 import re
 
 from stdnum import isbn, issn
+import yaml
 
 output_file = 'output.csv'
 input_file = 'input.csv'
@@ -28,6 +29,10 @@ class SpreadSheet:
         self.di = OrderedDict()
         self.csvRow = None
         self.detected_languages = []
+        self.document_types = None
+
+
+
         '''
         Scan csv for these language. ALso use this languages to generate DSpace csv land headers.
 
@@ -38,6 +43,13 @@ class SpreadSheet:
         self.langid_identifier = LanguageIdentifier.from_modelstring(model, norm_probs=True)
 
         self.languages_iso = {}
+
+        with open('./settings/types.yml', 'r') as typefile:
+            cfg = yaml.load(typefile, Loader=yaml.FullLoader)
+
+        self.document_types = cfg['types']
+        # print(types)
+
 
     def loadLanguages(self):
 
@@ -136,7 +148,7 @@ class SpreadSheet:
 
             # dc.type
             self.csvRow[1] = self.csvRow[1].strip()
-            self.rename_type(1)
+            self.enrich_document_type(1)
             # print(self.csvRow[0])
             self.oDi[key]['dc.type.uhtype[en]'] = self.csvRow[1]
 
@@ -648,34 +660,9 @@ class SpreadSheet:
     def replace_semicolon_with_vertical(self, var):
         return var.replace(';', '||')
 
-    def rename_type(self, type_column):
-        d = {'bookSection': 'Book Chapter',
-             'book': 'Book',
-             'conferencePaper': 'Conference Object',
-             'thesis': 'Doctoral Thesis',
-             'journalArticle': 'Article',
-             'report': 'Report'
-             }
-
-        with open('./settings/types.yml', 'r') as typefile:
-            cfg = yaml.load(typefile)
-
-        types = cfg['types']
-        print(types)
-        # self.enrich_orgs = orgs
-        # for k, v in orgs:
-        #     print(v)
-        #     # self.enrich_fqdn.append(v)
-
-        # TODO: define function
-        # call as self.enrich_type(<A STRING TYPE from zotero>)
-        # def enrich_type(self, str):
-        #     if str in self.rename_types:
-        #         return self.rename_types[str]
-
-
-        if self.csvRow[type_column] in d.keys():
-            self.csvRow[type_column] = d[self.csvRow[type_column]]
+    def enrich_document_type(self, str):
+        if str in self.document_types:
+            return self.document_types[str]
 
     def rename_language(self, lang_column):
         if self.csvRow[lang_column] in self.languages_iso.keys():
