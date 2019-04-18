@@ -148,7 +148,7 @@ class SpreadSheet:
 
             # dc.type
             self.csvRow[1] = self.csvRow[1].strip()
-            self.enrich_document_type(1)
+            self.csvRow[1] = self.enrich_document_type(self.csvRow[1])
             # print(self.csvRow[0])
             self.oDi[key]['dc.type.uhtype[en]'] = self.csvRow[1]
 
@@ -159,23 +159,18 @@ class SpreadSheet:
             self.oDi[key]['dc.language.iso[en]'] = self.csvRow[28]
 
             # dc.contributor.author
-            # self.create_authors(key, [3])
             self.create_metadata_with_language(key, [3], "dc.contributor.author")
 
             # dc.contributor.translator
-            # self.create_translator(key, [43])
             self.create_metadata_with_language(key, [43], "dc.contributor.translator")
 
             # dc.title
-            # self.create_title(key, [4])
             self.create_metadata_with_language(key, [4], "dc.title")
 
             # dc.source
-            # self.create_source(key, [5, 71])
             self.create_metadata_with_language(key, [5, 71], "dc.source")
 
             # dc.source.abbreviation
-            # self.create_source_abbreviation(key, [20])
             self.create_metadata_with_language(key, [20], "dc.source.abbreviation")
 
             # dc.source.other
@@ -188,11 +183,9 @@ class SpreadSheet:
             # self.oDi[key]['dc.date.available[]'] = self.csvRow[6].strip()
 
             # dc.description.volume
-            # self.create_volume(key, [18])
             self.create_metadata_with_language(key, [18], "dc.description.volume")
 
             # dc.description.issue
-            # self.create_issue(key, [17])
             self.create_metadata_with_language(key, [17], "dc.description.issue")
 
             # dc.description.startingpage
@@ -205,27 +198,21 @@ class SpreadSheet:
             self.oDi[key]['dc.description.totalnumpages[]'] = self.csvRow[16].strip()
 
             # dc.subject
-            # self.create_subjects(key, [39])
             self.create_metadata_with_language(key, [39], "dc.subject")
 
             # dc.description.abstract
-            # self.create_description_abstract(key, [10])
             self.create_metadata_with_language(key, [10], "dc.description.abstract")
 
             # dc.description.notes
-            # self.create_description(key, [36])
             self.create_metadata_with_language(key, [36], "dc.description.notes")
 
             # dc.description.edition
-            # self.create_edition(key, [71])
             self.create_metadata_with_language(key, [71], "dc.description.edition")
 
             # dc.publisher
-            # self.create_publisher(key, [26])
             self.create_metadata_with_language(key, [26], "dc.publisher")
 
             # dc.coverage.spatial
-            # self.create_spatial(key, [27])
             self.create_metadata_with_language(key, [27], "dc.coverage.spatial")
 
             # dc.identifier
@@ -240,7 +227,7 @@ class SpreadSheet:
             self.create_lc(key, [34])
 
             # dc.language.iso
-            self.oDi[key]['dc.language.iso[]'] = self.csvRow[28].strip()
+            # self.oDi[key]['dc.language.iso[]'] = self.csvRow[28].strip()
 
             # dc.title.alternative
             # oDi[key][19] = self.generate_repeative_fields([23, 31])
@@ -252,7 +239,6 @@ class SpreadSheet:
             self.oDi[key]['dc.identifier.doi[]'] = self.csvRow[8].strip()
 
             # dc.contributor.editor
-            # self.create_editor(key, [41, 42])
             self.create_metadata_with_language(key, [41, 42], "dc.contributor.editor")
 
             """
@@ -274,40 +260,6 @@ class SpreadSheet:
             Regex validator for LC
             [A-Z]{1,4}[0-9]{1,4}([.][0-9]{1,3})?([.][A-Z]?)?[0-9]+([\w ]+[0-9]{4})? 
             """
-
-            # print(self.oDi[key])
-
-        # for key, value in oDi.items():
-        #     print (str(key) + ': ' + value[23])
-        # print(self.oDi)
-
-    '''
-            with open('export.csv', 'w') as csvfile:
-
-                fieldnames = self.generate_csv_header_for_dspace()
-
-                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-                writer.writeheader()
-
-
-                # print(self.oDi)
-                a_row = OrderedDict()
-                for key, value in self.oDi.items():
-                    # print(key)
-                    # print(value)
-
-                    for field in fieldnames:
-                        # print(field)
-                        # print(self.oDi[key][field])
-                        if field in self.oDi[key]:
-                            a_row[field] = self.oDi[key][field]
-                        else:
-                            a_row[field] = ''
-                    # print('-------------------------------')
-                    # print(a_row)
-
-                    writer.writerow(a_row)
-    '''
 
     # print(str(key) + ': ' + value[23])
 
