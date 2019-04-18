@@ -31,6 +31,10 @@ class SpreadSheet:
         self.detected_languages = []
         self.document_types = None
 
+        self.initial_fieldnames = None
+        self.fieldnames_with_language = None
+        self.fieldnames_with_no_language = None
+
 
 
         '''
@@ -46,13 +50,16 @@ class SpreadSheet:
 
         with open('./settings/types.yml', 'r') as typefile:
             cfg = yaml.load(typefile, Loader=yaml.FullLoader)
-
         self.document_types = cfg['types']
         # print(types)
 
+        with open('./settings/dspace_csv_header.yml', 'r') as dspace_csv_header_file:
+            cfg_dspace = yaml.load(dspace_csv_header_file, Loader=yaml.FullLoader)
+        self.initial_fieldnames = cfg_dspace['initial_fieldnames']
+        self.fieldnames_with_language = cfg_dspace['fieldnames_with_language']
+        self.fieldnames_with_no_language = cfg_dspace['fieldnames_with_no_language']
 
     def loadLanguages(self):
-
         try:
             readdata = csv.reader(open(ZOTERO_LANGUAGES))
         except FileNotFoundError:
