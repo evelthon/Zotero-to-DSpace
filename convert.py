@@ -17,7 +17,7 @@ import yaml
 output_file = 'output.csv'
 input_file = 'input.csv'
 handle = '7/1234'
-ZOTERO_LANGUAGES = 'languages_zotero.csv'
+ZOTERO_LANGUAGES = './settings/languages_zotero.csv'
 
 
 class SpreadSheet:
