@@ -59,6 +59,8 @@ class SpreadSheet:
         self.fieldnames_with_language = cfg_dspace['fieldnames_with_language']
         self.fieldnames_with_no_language = cfg_dspace['fieldnames_with_no_language']
 
+        print(self.fieldnames_with_no_language)
+
     def loadLanguages(self):
         try:
             readdata = csv.reader(open(ZOTERO_LANGUAGES))
@@ -628,57 +630,14 @@ class SpreadSheet:
             self.csvRow[lang_column] = self.languages_iso[self.csvRow[lang_column]]
 
     def generate_csv_header_for_dspace(self):
-        fieldnames = [
-            # 'dc.type.uhtype',
-            'dc.contributor.author',
-            'dc.title',
-            'dc.title.alternative',
-            'dc.source',
-            'dc.source.other',
-            'dc.source.abbreviation',
-            'dc.description.volume',
-            'dc.description.issue',
-            # 'dc.description.startingpage',
-            # 'dc.description.endingpage',
-            'dc.subject',
-            'dc.description.abstract',
-            'dc.description.notes',
-            'dc.description.edition',
-            'dc.contributor.editor',
-            'dc.contributor.translator',
-            'dc.publisher',
-            'dc.coverage.spatial',
-            # 'dc.identifier',
-            # 'dc.identifier.lc',
-            # 'dc.language.iso',
-            # 'dc.title.alternative',
-            # 'dc.source.uri',
-            # 'dc.identifier.doi',
-        ]
-        fieldnames_with_no_language = [
-            'dc.date.issued[]',
-            'dc.date.available[]',
-            'dc.description.startingpage[]',
-            'dc.description.endingpage[]',
-            'dc.description.totalnumpages[]',
-            'dc.identifier[]',
-            'dc.identifier.doi[]',
-            'dc.identifier.isbn[]',
-            'dc.identifier.issn[]',
-            # 'dc.identifier.ismn[]',
-            'dc.source.uri[]',
-            'dc.identifier.other[]'
-        ]
-        complete_header_list = ['id', 'collection', 'dc.type', 'dc.type.uhtype[en]', 'dc.language.iso[en]',
-                                'dc.identifier.lc[en]']
+        complete_header_list = self.initial_fieldnames
         for lang in self.searched_for_languages:
-            for field in fieldnames:
-                if field not in fieldnames_with_no_language:
-                    #     complete_header_list.append(field)
-                    # else:
+            for field in self.fieldnames_with_language:
+                if field not in self.fieldnames_with_no_language:
                     complete_header_list.append(field + "[" + lang + "]")
 
-        complete_header_list += fieldnames_with_no_language
+        complete_header_list += self.fieldnames_with_no_language
+
         return complete_header_list
 
 
