@@ -1,4 +1,4 @@
-first_fieldnames:
+initial_fieldnames:
   - id'
   - collection
   - dc.type
@@ -6,7 +6,7 @@ first_fieldnames:
   - dc.language.iso[en]
   - dc.identifier.lc[en]
 
-fieldnames_with_Language:
+fieldnames_with_language:
   - dc.type.uhtype
   - dc.contributor.author
   - dc.title
