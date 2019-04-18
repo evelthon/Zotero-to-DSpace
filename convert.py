@@ -131,6 +131,10 @@ class SpreadSheet:
             self.csvRow = value
             # print(value)
 
+            """
+            Columns with special function generator
+            """
+
             self.oDi[key]['id'] = '+'
             self.oDi[key]['collection'] = self.handle
 
@@ -146,44 +150,52 @@ class SpreadSheet:
             # print(self.csvRow[0])
             self.oDi[key]['dc.language.iso[en]'] = self.csvRow[28]
 
-            # dc.contributor.author
-            self.create_metadata_with_language(key, [3], "dc.contributor.author")
-
-            # dc.contributor.translator
-            self.create_metadata_with_language(key, [43], "dc.contributor.translator")
-
-            # dc.title
-            self.create_metadata_with_language(key, [4], "dc.title")
-
-            # dc.source
-            self.create_metadata_with_language(key, [5, 71], "dc.source")
-
-            # dc.source.abbreviation
-            self.create_metadata_with_language(key, [20], "dc.source.abbreviation")
-
-            # dc.source.other
-            # self.create_source(key, [39])
-
             # dc.date.issued (no language distinction)
             self.oDi[key]['dc.date.issued[]'] = self.create_date_issued(2, 11)
 
-            # dc.date.available (no language distinction)
-            # self.oDi[key]['dc.date.available[]'] = self.csvRow[6].strip()
 
-            # dc.description.volume
-            self.create_metadata_with_language(key, [18], "dc.description.volume")
-
-            # dc.description.issue
-            self.create_metadata_with_language(key, [17], "dc.description.issue")
 
             # dc.description.startingpage
             self.oDi[key]['dc.description.startingpage[]'] = self.create_startingpage(15)
 
             # dc.description.endingpage
-            self.oDi[key]['dc.description.endingpage[]'] =  self.create_endingpage(15)
+            self.oDi[key]['dc.description.endingpage[]'] = self.create_endingpage(15)
 
             # dc.description.totalnumpages[]
             self.oDi[key]['dc.description.totalnumpages[]'] = self.csvRow[16].strip()
+
+            # dc.identifier.lc[]
+            # SPECIAL
+            self.create_lc(key, [34])
+
+            # dc.source.uri
+            self.oDi[key]['dc.source.uri[]'] = self.generate_repeative_fields([9, 38])
+
+            # dc.identifier.doi
+            self.oDi[key]['dc.identifier.doi[]'] = self.csvRow[8].strip()
+
+            # dc.identifier.isbn[]
+            self.oDi[key]['dc.identifier.isbn[]'] = self.create_isbn(key, [6])
+
+            # dc.identifier.issn[]
+            self.oDi[key]['dc.identifier.issn[]'] = self.create_isbn(key, [7])
+
+            # dc.source.other
+            # self.create_source(key, [39])
+
+
+
+            # dc.date.available (no language distinction)
+            # self.oDi[key]['dc.date.available[]'] = self.csvRow[6].strip()
+
+            """
+            Columns with common function generator
+            """
+            # dc.description.volume
+            self.create_metadata_with_language(key, [18], "dc.description.volume")
+
+            # dc.description.issue
+            self.create_metadata_with_language(key, [17], "dc.description.issue")
 
             # dc.subject
             self.create_metadata_with_language(key, [39], "dc.subject")
@@ -203,6 +215,24 @@ class SpreadSheet:
             # dc.coverage.spatial
             self.create_metadata_with_language(key, [27], "dc.coverage.spatial")
 
+            # dc.contributor.editor
+            self.create_metadata_with_language(key, [41, 42], "dc.contributor.editor")
+
+            # dc.contributor.author
+            self.create_metadata_with_language(key, [3], "dc.contributor.author")
+
+            # dc.contributor.translator
+            self.create_metadata_with_language(key, [43], "dc.contributor.translator")
+
+            # dc.title
+            self.create_metadata_with_language(key, [4], "dc.title")
+
+            # dc.source
+            self.create_metadata_with_language(key, [5, 71], "dc.source")
+
+            # dc.source.abbreviation
+            self.create_metadata_with_language(key, [20], "dc.source.abbreviation")
+
             # dc.identifier
             # self.oDi[key]['dc.identifier[]'] = self.csvRow[24].strip()
             # oDi[key][16] = self.generate_repeative_fields([24])
@@ -210,9 +240,7 @@ class SpreadSheet:
             # dc.identifier.lc // dc.identifier.lc[en]
             # self.oDi[key]['dc.identifier.other[]'] = self.generate_repeative_fields([27, 29])
 
-            # dc.identifier.lc[]
-            # SPECIAL
-            self.create_lc(key, [34])
+
 
             # dc.language.iso
             # self.oDi[key]['dc.language.iso[]'] = self.csvRow[28].strip()
@@ -220,14 +248,9 @@ class SpreadSheet:
             # dc.title.alternative
             # oDi[key][19] = self.generate_repeative_fields([23, 31])
 
-            # dc.source.uri
-            self.oDi[key]['dc.source.uri[]'] = self.generate_repeative_fields([9, 38])
 
-            # dc.identifier.doi
-            self.oDi[key]['dc.identifier.doi[]'] = self.csvRow[8].strip()
 
-            # dc.contributor.editor
-            self.create_metadata_with_language(key, [41, 42], "dc.contributor.editor")
+
 
             """
                 dc.identifier.isbn	International Standard Book Number
@@ -241,8 +264,7 @@ class SpreadSheet:
             else:
                 self.oDi[key]['dc.identifier.isbn[]'] = num_data
             '''
-            self.oDi[key]['dc.identifier.isbn[]'] = self.create_isbn(key, [6])
-            self.oDi[key]['dc.identifier.issn[]'] = self.create_isbn(key, [7])
+
 
             """
             Regex validator for LC
