@@ -1,0 +1,39 @@
+first_fieldnames:
+  - id'
+  - collection
+  - dc.type
+  - dc.type.uhtype[en]
+  - dc.language.iso[en]
+  - dc.identifier.lc[en]
+
+fieldnames_with_Language:
+  - dc.type.uhtype
+  - dc.contributor.author
+  - dc.title
+  - dc.title.alternative
+  - dc.source
+  - dc.source.other
+  - dc.source.abbreviation
+  - dc.description.volume
+  - dc.description.issue
+  - dc.subject
+  - dc.description.abstract
+  - dc.description.notes
+  - dc.description.edition
+  - dc.contributor.editor
+  - dc.contributor.translator
+  - dc.publisher
+  - dc.coverage.spatial
+
+fieldnames_with_no_language:
+  - dc.date.issued[]
+  - dc.date.available[]
+  - dc.description.startingpage[]
+  - dc.description.endingpage[]
+  - dc.description.totalnumpages[]
+  - dc.identifier[]
+  - dc.identifier.doi[]
+  - dc.identifier.isbn[]
+  - dc.identifier.issn[]
+  - dc.source.uri[]
+  - dc.identifier.other[]
