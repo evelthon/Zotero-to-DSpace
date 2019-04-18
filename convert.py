@@ -35,8 +35,6 @@ class SpreadSheet:
         self.fieldnames_with_language = None
         self.fieldnames_with_no_language = None
 
-
-
         '''
         Scan csv for these language. ALso use this languages to generate DSpace csv land headers.
 
@@ -59,9 +57,7 @@ class SpreadSheet:
         self.fieldnames_with_language = cfg_dspace['fieldnames_with_language']
         self.fieldnames_with_no_language = cfg_dspace['fieldnames_with_no_language']
 
-        print(self.fieldnames_with_no_language)
-
-    def loadLanguages(self):
+    def load_languages(self):
         try:
             readdata = csv.reader(open(ZOTERO_LANGUAGES))
         except FileNotFoundError:
@@ -69,8 +65,6 @@ class SpreadSheet:
             sys.exit()
         self.languages_iso = {rows[0]: rows[1] for rows in readdata}
         # print(self.languages_iso)
-
-
 
     def exportCSV(self):
         with open(self.output_file, 'w') as csvfile:
@@ -102,7 +96,6 @@ class SpreadSheet:
     def importCSV(self):
 
         di = OrderedDict()
-        # lol = list(csv.reader(open('text.txt', 'rb'), delimiter='\t'))
 
         try:
             print(self.input_file)
@@ -122,27 +115,13 @@ class SpreadSheet:
 
         # num or records discovered
         print("Found records: " + str(len(di)))
-        #
-        # print(di[0])
-        # print(di[122])
-
-        # for key, value in di.items():
-        #     print(str(key) + ': ' + value[2])
 
         '''
         Generate a dictionary with keys, the csv headers of the ending csv file
         '''
-        # keys = self.generate_csv_header_for_dspace()
-        # temp_row = OrderedDict()
-        # for k in keys:
-        #     temp_row[k] = ''
-        # print('-------------------------------')
-        # print(temp_row)
 
-        # oDi = OrderedDict()
-        # j = 0
         for key, value in di.items():
-            # print(key)
+
             # By-pass non-valid lines (caused by refworks output)
             if len(value) < 10 or str(value).startswith("['Reference Typ"):
                 # print('Empty key at: ' + str(key) + ' where value was: ' + str(value))
@@ -664,7 +643,7 @@ if __name__ == "__main__":
     handle = args.handle
 
     # obj = SpreadSheet(input_file, output_file, handle)
-    # obj.loadLanguages()
+    # obj.load_languages()
     # obj.importCSV()
     # obj.exportCSV()
 
@@ -674,7 +653,7 @@ if __name__ == "__main__":
         handle = args.handle
 
         obj = SpreadSheet(input_file, output_file, handle)
-        obj.loadLanguages()
+        obj.load_languages()
         obj.importCSV()
         obj.exportCSV()
 
