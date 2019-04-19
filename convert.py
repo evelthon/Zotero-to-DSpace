@@ -627,8 +627,26 @@ class SpreadSheet:
             return self.document_types[str]
 
     def rename_language(self, lang_column):
-        if self.csvRow[lang_column] in self.languages_iso.keys():
-            self.csvRow[lang_column] = self.languages_iso[self.csvRow[lang_column]]
+        tmp_list = []
+        tmp_list += [x.strip() for x in self.csvRow[lang_column].split(";")]
+        for i, lang in enumerate(tmp_list):
+            if lang in self.languages_iso.keys():
+                tmp_list[i] = self.languages_iso[lang]
+            if lang == 'No Linguistic Content' or lang == 'Undetermined':
+                tmp_list[i] = ''
+        # print(tmp_list)
+        if len(tmp_list) > 1:
+            self.csvRow[lang_column] = '||'.join(filter(None, tmp_list)).strip()
+        elif len(tmp_list) == 1:
+            self.csvRow[lang_column] = tmp_list[0].strip()
+        else:
+            self.csvRow[lang_column] = ""
+        # print( self.csvRow[lang_column])
+
+            # if self.csvRow[lang_column] in self.languages_iso.keys():
+            #     self.csvRow[lang_column] = self.languages_iso[self.csvRow[lang_column]]
+
+            # return '||'.join(filter(None, tmp_list)).strip()
 
     def generate_csv_header_for_dspace(self):
         complete_header_list = self.initial_fieldnames
