@@ -46,16 +46,33 @@ class SpreadSheet:
 
         self.languages_iso = {}
 
+        """
+        Load document types
+        Translates Zotero types to preferred values of DSpace 
+        (how we prefer each value)
+        """
         with open('./settings/types.yml', 'r') as typefile:
             cfg = yaml.load(typefile, Loader=yaml.FullLoader)
         self.document_types = cfg['types']
         # print(types)
 
+        """
+        Load csv header values.
+        These are the headers in DSpace's CSV file (to be generated)
+        """
         with open('./settings/dspace_csv_header.yml', 'r') as dspace_csv_header_file:
             cfg_dspace = yaml.load(dspace_csv_header_file, Loader=yaml.FullLoader)
         self.initial_fieldnames = cfg_dspace['initial_fieldnames']
         self.fieldnames_with_language = cfg_dspace['fieldnames_with_language']
         self.fieldnames_with_no_language = cfg_dspace['fieldnames_with_no_language']
+
+        """
+        Load metadata mapping.
+        Defines which value of Zotero goes to what DC variable.
+        """
+        with open('./settings/metadata_mapping.yml', 'r') as metadata_mapping_file:
+            cfg_metadata_mapping = yaml.load(metadata_mapping_file, Loader=yaml.FullLoader)
+        self.metadata_with_language = cfg_metadata_mapping['metadata_with_language']
 
     def load_languages(self):
         try:
