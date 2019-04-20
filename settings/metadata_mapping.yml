@@ -1,5 +1,5 @@
 metadata_with_language:
-  dc.description.volume: dc.description.volume
+  dc.description.volume: 18
   dc.descriptionissue: 17
   dc.subject: 39
   dc.description.abstract: 10
@@ -13,3 +13,14 @@ metadata_with_language:
   dc.title: 4
   dc.source: 5, 71
   dc.source.abbreviation: 20
+
+metadata_without_language:
+  dc.date.issued: 2, 11
+  dc.description.startingpage: 15
+  dc.description.endingpage: 15
+  dc.description.totalnumpages: 16
+  dc.identifier.lc: 34
+  dc.source.uri: 9, 38
+  dc.identifier.doi:
+  dc.identifier.isbn: 6
+  dc.identifier.issn: 7
