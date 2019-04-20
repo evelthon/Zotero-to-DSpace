@@ -177,10 +177,15 @@ class SpreadSheet:
 
 
             # dc.description.startingpage
-            self.oDi[key]['dc.description.startingpage[]'] = self.create_startingpage(15)
+            if 'dc.description.startingpage' in self.metadata_without_language:
+                self.oDi[key]['dc.description.startingpage[]'] = self.create_startingpage(
+                    int(self.metadata_without_language['dc.description.startingpage']))
 
             # dc.description.endingpage
-            self.oDi[key]['dc.description.endingpage[]'] = self.create_endingpage(15)
+            if 'dc.description.endingpage' in self.metadata_without_language:
+                self.oDi[key]['dc.description.endingpage[]'] = self.create_endingpage(
+                    int(self.metadata_without_language['dc.description.endingpage']))
+            # self.oDi[key]['dc.description.endingpage[]'] = self.create_endingpage(15)
 
             # dc.description.totalnumpages[]
             self.oDi[key]['dc.description.totalnumpages[]'] = self.csvRow[16].strip()
