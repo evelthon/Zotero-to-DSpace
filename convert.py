@@ -73,6 +73,7 @@ class SpreadSheet:
         with open('./settings/metadata_mapping.yml', 'r') as metadata_mapping_file:
             cfg_metadata_mapping = yaml.load(metadata_mapping_file, Loader=yaml.FullLoader)
         self.metadata_with_language = cfg_metadata_mapping['metadata_with_language']
+        self.metadata_without_language = cfg_metadata_mapping['metadata_without_language']
 
     def load_languages(self):
         try:
@@ -168,7 +169,10 @@ class SpreadSheet:
             self.oDi[key]['dc.language.iso[en]'] = self.csvRow[28]
 
             # dc.date.issued (no language distinction)
-            self.oDi[key]['dc.date.issued[]'] = self.create_date_issued(2, 11)
+            if 'dc.date.issued' in self.metadata_without_language:
+                primary_var = int(self.metadata_without_language['dc.date.issued'].split(',')[0].strip())
+                sec_var = int(self.metadata_without_language['dc.date.issued'].split(',')[1].strip())
+                self.oDi[key]['dc.date.issued[]'] = self.create_date_issued(primary_var, sec_var)
 
 
 
@@ -207,6 +211,13 @@ class SpreadSheet:
 
             """
             Columns with common function generator
+            """
+
+            for k in self.metadata_with_language:
+                self.create_metadata_with_language(key,
+                                                   list(map(int, str(self.metadata_with_language[k]).split(','))),
+                                                   str(k))
+
             """
             # dc.description.volume
             self.create_metadata_with_language(key, [18], "dc.description.volume")
@@ -248,7 +259,10 @@ class SpreadSheet:
             self.create_metadata_with_language(key, [5, 71], "dc.source")
 
             # dc.source.abbreviation
-            self.create_metadata_with_language(key, [20], "dc.source.abbreviation")
+            self.create_metadata_with_language(key, [20], "dc.source.abbreviation"
+            """
+
+
 
             # dc.identifier
             # self.oDi[key]['dc.identifier[]'] = self.csvRow[24].strip()
@@ -699,20 +713,20 @@ if __name__ == "__main__":
     output_file = args.output_file
     handle = args.handle
 
-    # obj = SpreadSheet(input_file, output_file, handle)
-    # obj.load_languages()
-    # obj.importCSV()
-    # obj.exportCSV()
+    obj = SpreadSheet(input_file, output_file, handle)
+    obj.load_languages()
+    obj.importCSV()
+    obj.exportCSV()
 
-    try:
-        input_file = args.input_file
-        output_file = args.output_file
-        handle = args.handle
-
-        obj = SpreadSheet(input_file, output_file, handle)
-        obj.load_languages()
-        obj.importCSV()
-        obj.exportCSV()
-
-    except AttributeError:
-        print ("\nUse -h for instructions.\n")
+    # try:
+    #     input_file = args.input_file
+    #     output_file = args.output_file
+    #     handle = args.handle
+    #
+    #     obj = SpreadSheet(input_file, output_file, handle)
+    #     obj.load_languages()
+    #     obj.importCSV()
+    #     obj.exportCSV()
+    #
+    # except AttributeError:
+        # print ("\nUse -h for instructions.\n")
