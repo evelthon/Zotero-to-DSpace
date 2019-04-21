@@ -188,7 +188,9 @@ class SpreadSheet:
             # self.oDi[key]['dc.description.endingpage[]'] = self.create_endingpage(15)
 
             # dc.description.totalnumpages[]
-            self.oDi[key]['dc.description.totalnumpages[]'] = self.csvRow[16].strip()
+            if 'dc.description.totalnumpages' in self.metadata_without_language:
+                num_col = int(self.metadata_without_language['dc.description.endingpage'])
+                self.oDi[key]['dc.description.totalnumpages[]'] = self.csvRow[num_col].strip()
 
             # dc.identifier.lc[]
             # SPECIAL
