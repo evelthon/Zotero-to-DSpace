@@ -199,16 +199,26 @@ class SpreadSheet:
                 self.create_lc(key, [lc_col])
 
             # dc.source.uri
-            self.oDi[key]['dc.source.uri[]'] = self.generate_repeative_fields([9, 38])
+            if 'dc.source.uri' in self.metadata_without_language:
+                # col_num = self.metadata_without_language['dc.source.uri']
+                col_num = list(map(int, str(self.metadata_without_language['dc.source.uri']).split(',')))
+                # print(col_num)
+                self.oDi[key]['dc.source.uri[]'] = self.generate_repeative_fields(col_num)
 
             # dc.identifier.doi
-            self.oDi[key]['dc.identifier.doi[]'] = self.csvRow[8].strip()
+            if 'dc.identifier.doi' in self.metadata_without_language:
+                col_num = int(self.metadata_without_language['dc.identifier.doi'])
+                self.oDi[key]['dc.identifier.doi[]'] = self.csvRow[col_num].strip()
 
             # dc.identifier.isbn[]
-            self.oDi[key]['dc.identifier.isbn[]'] = self.create_isbn(key, [6])
+            if 'dc.identifier.isbn' in self.metadata_without_language:
+                col_num = list(map(int, str(self.metadata_without_language['dc.identifier.isbn']).split(',')))
+                self.oDi[key]['dc.identifier.isbn[]'] = self.create_isbn(key, col_num)
 
             # dc.identifier.issn[]
-            self.oDi[key]['dc.identifier.issn[]'] = self.create_isbn(key, [7])
+            if 'dc.identifier.issn' in self.metadata_without_language:
+                col_num = list(map(int, str(self.metadata_without_language['dc.identifier.issn']).split(',')))
+                self.oDi[key]['dc.identifier.issn[]'] = self.create_issn(key, col_num)
 
             # dc.source.other
             # self.create_source(key, [39])
