@@ -220,11 +220,6 @@ class SpreadSheet:
                 col_num = list(map(int, str(self.metadata_without_language['dc.identifier.issn']).split(',')))
                 self.oDi[key]['dc.identifier.issn[]'] = self.create_issn(key, col_num)
 
-            # dc.source.other
-            # self.create_source(key, [39])
-
-
-
             # dc.date.available (no language distinction)
             # self.oDi[key]['dc.date.available[]'] = self.csvRow[6].strip()
 
@@ -238,83 +233,10 @@ class SpreadSheet:
                                                    str(k))
 
             """
-            # dc.description.volume
-            self.create_metadata_with_language(key, [18], "dc.description.volume")
-
-            # dc.description.issue
-            self.create_metadata_with_language(key, [17], "dc.description.issue")
-
-            # dc.subject
-            self.create_metadata_with_language(key, [39], "dc.subject")
-
-            # dc.description.abstract
-            self.create_metadata_with_language(key, [10], "dc.description.abstract")
-
-            # dc.description.notes
-            self.create_metadata_with_language(key, [36], "dc.description.notes")
-
-            # dc.description.edition
-            self.create_metadata_with_language(key, [71], "dc.description.edition")
-
-            # dc.publisher
-            self.create_metadata_with_language(key, [26], "dc.publisher")
-
-            # dc.coverage.spatial
-            self.create_metadata_with_language(key, [27], "dc.coverage.spatial")
-
-            # dc.contributor.editor
-            self.create_metadata_with_language(key, [41, 42], "dc.contributor.editor")
-
-            # dc.contributor.author
-            self.create_metadata_with_language(key, [3], "dc.contributor.author")
-
-            # dc.contributor.translator
-            self.create_metadata_with_language(key, [43], "dc.contributor.translator")
-
-            # dc.title
-            self.create_metadata_with_language(key, [4], "dc.title")
-
-            # dc.source
-            self.create_metadata_with_language(key, [5, 71], "dc.source")
-
-            # dc.source.abbreviation
-            self.create_metadata_with_language(key, [20], "dc.source.abbreviation"
-            """
-
-
-
-            # dc.identifier
-            # self.oDi[key]['dc.identifier[]'] = self.csvRow[24].strip()
-            # oDi[key][16] = self.generate_repeative_fields([24])
-
-            # dc.identifier.lc // dc.identifier.lc[en]
-            # self.oDi[key]['dc.identifier.other[]'] = self.generate_repeative_fields([27, 29])
-
-
-
-            # dc.language.iso
-            # self.oDi[key]['dc.language.iso[]'] = self.csvRow[28].strip()
-
-            # dc.title.alternative
-            # oDi[key][19] = self.generate_repeative_fields([23, 31])
-
-
-
-
-
-            """
                 dc.identifier.isbn	International Standard Book Number
                 dc.identifier.ismn	International Standard Music Number
                 dc.identifier.issn
             """
-            '''
-            num_type, num_data = self.create_isbn_or_issn(key, [24])
-            if num_type == 'issn':
-                self.oDi[key]['dc.identifier.issn[]'] = num_data
-            else:
-                self.oDi[key]['dc.identifier.isbn[]'] = num_data
-            '''
-
 
             """
             Regex validator for LC
