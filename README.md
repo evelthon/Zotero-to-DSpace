@@ -4,6 +4,9 @@ A tool to migrate Zotero metadata to DSpace. It converts Zotero-CSV to DSpace-CS
 It is used to migrate data from Zotero to UCY's institutional repository (https://gnosis.library.ucy.ac.cy/)
 
 
+##### License: CC BY-NC-SA 4.0 (https://creativecommons.org/licenses/by-nc-sa/4.0/)
+
+
 Using:
 - langid 1.1.6
 - numpy 1.16.2
