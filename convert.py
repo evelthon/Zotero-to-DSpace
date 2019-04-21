@@ -114,7 +114,7 @@ class SpreadSheet:
         di = OrderedDict()
 
         try:
-            print(self.input_file)
+            # print(self.input_file)
             readdata = csv.reader(open(self.input_file), delimiter=',', quotechar='"')
         except FileNotFoundError:
             print('File not found: ' + self.input_file)
@@ -552,19 +552,10 @@ class SpreadSheet:
         return return_value
 
     def generate_repeative_fields(self, var_list=None):
-        # Generate a string list of source fields
-        # my_list is a list of fields seperated with ';' by export. They need to change to '||'
-        # this happens in author fields
-        # my_list = {
-        #     # authors
-        #     1, 15, 20, 21, 22,
-        #     # Subjects
-        #     11
-        # }
+        # fields seperated with ';' by export. They need to change to '||'
         temp_list = list()
 
         for var in var_list:
-            # if var in my_list:
             self.csvRow[var] = self.replace_semicolon_with_vertical(self.csvRow[var])
             temp_list.append(self.csvRow[var].strip())
 
@@ -633,20 +624,20 @@ if __name__ == "__main__":
     output_file = args.output_file
     handle = args.handle
 
-    obj = SpreadSheet(input_file, output_file, handle)
-    obj.load_languages()
-    obj.importCSV()
-    obj.exportCSV()
+    # obj = SpreadSheet(input_file, output_file, handle)
+    # obj.load_languages()
+    # obj.importCSV()
+    # obj.exportCSV()
 
-    # try:
-    #     input_file = args.input_file
-    #     output_file = args.output_file
-    #     handle = args.handle
-    #
-    #     obj = SpreadSheet(input_file, output_file, handle)
-    #     obj.load_languages()
-    #     obj.importCSV()
-    #     obj.exportCSV()
-    #
-    # except AttributeError:
-        # print ("\nUse -h for instructions.\n")
+    try:
+        #     input_file = args.input_file
+        #     output_file = args.output_file
+        #     handle = args.handle
+        #
+        obj = SpreadSheet(input_file, output_file, handle)
+        obj.load_languages()
+        obj.importCSV()
+        obj.exportCSV()
+
+    except AttributeError:
+        print ("\nUse -h for instructions.\n")
