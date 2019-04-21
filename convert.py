@@ -5,8 +5,6 @@ import csv as csv
 from collections import OrderedDict
 import langid
 from langid.langid import LanguageIdentifier, model
-import unicodedata
-from decimal import Decimal
 import argparse
 import sys
 import re
@@ -173,8 +171,6 @@ class SpreadSheet:
                 primary_var = int(self.metadata_without_language['dc.date.issued'].split(',')[0].strip())
                 sec_var = int(self.metadata_without_language['dc.date.issued'].split(',')[1].strip())
                 self.oDi[key]['dc.date.issued[]'] = self.create_date_issued(primary_var, sec_var)
-
-
 
             # dc.description.startingpage
             if 'dc.description.startingpage' in self.metadata_without_language:
@@ -490,7 +486,7 @@ class SpreadSheet:
         detected_langid_value = ''
 
         langid.set_languages(self.langid_languages)
-        langid.set_languages(['de', 'fr', 'it'])
+        # langid.set_languages(['de', 'fr', 'it'])
         detected_lang = self.langid_identifier.classify(str_langid)
         # print(detected_lang)
         # if detected_lang[1] < 0.5:
@@ -504,48 +500,33 @@ class SpreadSheet:
 
         if detected_lang[1] > 0.9999 and detected_lang[0] in self.langid_languages:
             detected_langid_value = detected_lang[0]
-            # if detected_langid_value == 'el':
-            #     detected_langid_value = 'el_GR'
             return detected_langid_value
-        else:
-            detected_langid_value = 'en'
+        # else:
+        #     detected_langid_value = 'en'
 
-        # Gent, België
-        # German
-        #
-        # ä → ae
-        # ö → oe
-        # ü → ue
-        # Ä → Ae
-        # Ö → Oe
-        # Ü → Ue
-        # ß → ss( or SZ)
-
-        # Turkish
-        # ş, Ğ, İ, ğ, ı, ç
-
-        # Spanish
-        # ñ
+        # Greek characters
         chars_el = set('αβγδεζηθικλμνξοπρσςτυφχψω')
+        # Latin characters
         chars_en = set('abcdefghijklmnopqrstuvwxyz')
+        # French characters
         chars_fr = set('éàèùâêîôûçëïü')
+        # German characters
         chars_de = set('äöüß')
+        # Turkish characters
         chars_tr = set('şĞİğı')
+        # Spanish characters
         chars_es = set('ñóíáã')
+        # Slovak characters
         chars_sk = set('ýúčžň')
+        # Czech characters
         chars_cz = set('řťšůď')
-
-        # if str.startswith("Gagatsis"):
-        #     if any((c in chars_el) for c in str):
-        #         print('GREEK in Gagatsis')
 
         '''
         If a greek character exists, return greek language immediately
         '''
-        # if 'GREEK' in unicodedata.name(str.strip()[0]):
-        #     return 'el_GR'
         if any((c in chars_el) for c in str):
             return 'el'
+
         return_value = ''
         # if 'LATIN' in unicodedata.name(str.strip()[0]):
         if any((c in chars_en) for c in str):
@@ -563,14 +544,12 @@ class SpreadSheet:
                 return_value = 'cz'
             return_value = 'en'
 
-            return return_value
-
         '''
         If no language is detected, return an empty string.
         This helps set DC values with no language.
         xstr = lambda s: s or ""
         '''
-        return ''
+        return return_value
 
     def generate_repeative_fields(self, var_list=None):
         # Generate a string list of source fields
