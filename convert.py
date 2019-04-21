@@ -194,7 +194,9 @@ class SpreadSheet:
 
             # dc.identifier.lc[]
             # SPECIAL
-            self.create_lc(key, [34])
+            if 'dc.identifier.lc' in self.metadata_without_language:
+                lc_col = int(self.metadata_without_language['dc.identifier.lc'])
+                self.create_lc(key, [34])
 
             # dc.source.uri
             self.oDi[key]['dc.source.uri[]'] = self.generate_repeative_fields([9, 38])
