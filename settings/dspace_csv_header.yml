@@ -1,5 +1,5 @@
 initial_fieldnames:
-  - id'
+  - id
   - collection
   - dc.type
   - dc.type.uhtype[en]
