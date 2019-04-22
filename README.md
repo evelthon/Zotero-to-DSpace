@@ -1,7 +1,7 @@
 # Zotero-to-DSpace
 A tool to migrate Zotero metadata to DSpace. It converts Zotero-CSV to DSpace-CSV format. 
-
-It is used to migrate data from Zotero to UCY's institutional repository (https://gnosis.library.ucy.ac.cy/)
+![imageztod](./images/zotero_to_dspace.png)
+Usage example: It is used to migrate data from Zotero to UCY's institutional repository (https://gnosis.library.ucy.ac.cy/)
 
 
 ##### License: CC BY-NC-SA 4.0 (https://creativecommons.org/licenses/by-nc-sa/4.0/)
