@@ -21,6 +21,12 @@ DSPACE_CSV_HEADER = './settings/dspace_csv_header.yml'
 METADATA_MAPPING = './settings/metadata_mapping.yml'
 ITEM_TYPES = './settings/types.yml'
 
+ORCID_FILE = './settings/ucy_orcid.csv'
+
+
+# temp variable (to be deleted)
+add_orcid = True
+
 
 class SpreadSheet:
 
@@ -37,6 +43,8 @@ class SpreadSheet:
         self.fieldnames_with_language = None
         self.fieldnames_with_no_language = None
 
+        self.orcid_list = None
+
         '''
         Scan csv for these language. ALso use this languages to generate DSpace csv land headers.
 
@@ -47,6 +55,8 @@ class SpreadSheet:
         self.langid_identifier = LanguageIdentifier.from_modelstring(model, norm_probs=True)
 
         self.languages_iso = {}
+
+        self.load_orcid()
 
         """
         Load document types
@@ -84,7 +94,16 @@ class SpreadSheet:
             print('Zotero language file not found: ' + ZOTERO_LANGUAGES)
             sys.exit()
         self.languages_iso = {rows[0]: rows[1] for rows in readdata}
-        # print(self.languages_iso)
+
+    def load_orcid(self):
+        try:
+            readdata = csv.reader(open(ORCID_FILE))
+        except FileNotFoundError:
+            print('ORCiD file not found: ' + ORCID_FILE)
+            sys.exit()
+        self.orcid_list = {rows[0].strip() + ', ' + rows[1].strip(): rows[2].strip() for rows in readdata}
+
+        # print(self.orcid_list)
 
     def exportCSV(self):
         with open(self.output_file, 'w') as csvfile:
