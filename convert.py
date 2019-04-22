@@ -360,41 +360,6 @@ class SpreadSheet:
         # No semi-colon, so do a join here. Cannot use the function to split semi-colons
         return '||'.join(filter(None, tmp_list)).strip()
 
-    # def create_isbn_or_issn(self, key, var_list=None):
-    #     tmp_list = []
-    #     type = None
-    #     for var in var_list:
-    #         # print(self.csvRow[var].strip())
-    #         tmp_elem = re.split('; |, ', self.csvRow[var].strip())
-    #         for i in range(len(tmp_elem)):
-    #             """
-    #             Filter ISSN and ISBN only
-    #             """
-    #             tmp_var_issn = self.remove_non_issn_chars(tmp_elem[i].upper())
-    #             tmp_var_isbn = self.remove_non_isbn_chars(tmp_elem[i].upper())
-    #             if issn.is_valid(tmp_var_issn):
-    #                 # print("Valid ISSN: " + tmp_var_issn)
-    #                 tmp_elem[i] = issn.format(tmp_var_issn)
-    #                 type = 'issn'
-    #
-    #             elif isbn.is_valid(tmp_var_isbn):
-    #                 # print("Valid ISBN: " + tmp_var_isbn)
-    #                 tmp_elem[i] = isbn.format(tmp_var_isbn)
-    #                 type = 'isbn'
-    #
-    #             else:
-    #                 tmp_elem[i] = None
-    #
-    #         # Filter all elements, remove text chars, parenthesis etc
-    #
-    #         # print(tmp_elem)
-    #         tmp_list += tmp_elem
-    #         # print(tmp_list)
-    #     tmp_list = list(filter(None, tmp_list))  # remove empty list elements
-    #     # print(tmp_list)
-    #     # No semi-colon, so do a join here. Cannot use the function to split semi-colons
-    #     return type, '||'.join(filter(None, tmp_list)).strip()
-
     def remove_non_isbn_chars(self, str):
         str = re.sub(r'[^0-9X\-]', "", str)
         return str
