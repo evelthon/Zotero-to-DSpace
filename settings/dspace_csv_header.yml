@@ -7,7 +7,6 @@ initial_fieldnames:
   - dc.identifier.lc[en]
 
 fieldnames_with_language:
-  - dc.type.uhtype
   - dc.contributor.author
   - dc.title
   - dc.title.alternative
