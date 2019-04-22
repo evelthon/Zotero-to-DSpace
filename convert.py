@@ -8,14 +8,18 @@ from langid.langid import LanguageIdentifier, model
 import argparse
 import sys
 import re
-
 from stdnum import isbn, issn
 import yaml
 
 output_file = 'output.csv'
 input_file = 'input.csv'
 handle = '7/1234'
+
+# configuration files
 ZOTERO_LANGUAGES = './settings/languages_zotero.csv'
+DSPACE_CSV_HEADER = './settings/dspace_csv_header.yml'
+METADATA_MAPPING = './settings/metadata_mapping.yml'
+ITEM_TYPES = './settings/types.yml'
 
 
 class SpreadSheet:
@@ -49,7 +53,7 @@ class SpreadSheet:
         Translates Zotero types to preferred values of DSpace 
         (how we prefer each value)
         """
-        with open('./settings/types.yml', 'r') as typefile:
+        with open(ITEM_TYPES, 'r') as typefile:
             cfg = yaml.load(typefile, Loader=yaml.FullLoader)
         self.document_types = cfg['types']
         # print(types)
@@ -58,7 +62,7 @@ class SpreadSheet:
         Load csv header values.
         These are the headers in DSpace's CSV file (to be generated)
         """
-        with open('./settings/dspace_csv_header.yml', 'r') as dspace_csv_header_file:
+        with open(DSPACE_CSV_HEADER, 'r') as dspace_csv_header_file:
             cfg_dspace = yaml.load(dspace_csv_header_file, Loader=yaml.FullLoader)
         self.initial_fieldnames = cfg_dspace['initial_fieldnames']
         self.fieldnames_with_language = cfg_dspace['fieldnames_with_language']
@@ -68,7 +72,7 @@ class SpreadSheet:
         Load metadata mapping.
         Defines which value of Zotero goes to what DC variable.
         """
-        with open('./settings/metadata_mapping.yml', 'r') as metadata_mapping_file:
+        with open(METADATA_MAPPING, 'r') as metadata_mapping_file:
             cfg_metadata_mapping = yaml.load(metadata_mapping_file, Loader=yaml.FullLoader)
         self.metadata_with_language = cfg_metadata_mapping['metadata_with_language']
         self.metadata_without_language = cfg_metadata_mapping['metadata_without_language']
