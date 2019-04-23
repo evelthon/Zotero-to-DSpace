@@ -103,7 +103,7 @@ class SpreadSheet:
             sys.exit()
         self.orcid_list = {rows[0].strip() + ', ' + rows[1].strip(): rows[2].strip() for rows in readdata}
 
-        # print(self.orcid_list)
+        print(self.orcid_list)
 
     def exportCSV(self):
         with open(self.output_file, 'w') as csvfile:
@@ -239,6 +239,10 @@ class SpreadSheet:
                 col_num = list(map(int, str(self.metadata_without_language['dc.identifier.issn']).split(',')))
                 self.oDi[key]['dc.identifier.issn[]'] = self.create_issn(key, col_num)
 
+            if add_orcid:
+                print("adding orcids")
+                self.populate_orcids(key, [3])
+
             # dc.date.available (no language distinction)
             # self.oDi[key]['dc.date.available[]'] = self.csvRow[6].strip()
 
@@ -324,6 +328,42 @@ class SpreadSheet:
                     lc_dict[k] += '||' + item
 
         for k, v in lc_dict.items():
+            self.oDi[key][k] = v
+        # return None
+
+    def populate_orcids(self, key, var_list=None):
+        orcid_dict = OrderedDict()
+        orcid_dict["dc.contributor.orcid[]"] = None
+        tmp_list = []
+        for var in var_list:
+            # tmp_list.append(self.csvRow[var].strip())
+            tmp_list += self.csvRow[var].split(";")
+        tmp_list = list(filter(None, tmp_list))  # remove empty list elements
+
+        # strip all elements in the list
+        tmp_list = map(str.strip, tmp_list)
+        # remove duplicates
+        tmp_list = list(set(tmp_list))
+        # print(tmp_list)
+        # pattern = re.compile("[A-Z]{1,4}[0-9]{1,4}([.][0-9]{1,3})?([.][A-Z]?)?[0-9]+([\w ]+[0-9]{4})?")
+        for item in tmp_list:
+            item = item.strip()
+            # if pattern.match(item):
+            if item in self.orcid_list:
+                k = "dc.contributor.orcid[]"
+
+                # print(self.orcid_list[item])
+                if not orcid_dict[k]:
+                    orcid_dict[k] = item + ' [' + self.orcid_list[item] + ']'
+
+                else:
+                    orcid_dict[k] += '||' + item + ' [' + self.orcid_list[item] + ']'
+
+                # print(orcid_dict[k])
+
+        for k, v in orcid_dict.items():
+            print(k)
+            print(v)
             self.oDi[key][k] = v
         # return None
 
@@ -580,6 +620,10 @@ class SpreadSheet:
 
     def generate_csv_header_for_dspace(self):
         complete_header_list = self.initial_fieldnames
+
+        if add_orcid:
+            complete_header_list.append("dc.contributor.orcid[]")
+
         for lang in self.searched_for_languages:
             for field in self.fieldnames_with_language:
                 if field not in self.fieldnames_with_no_language:
