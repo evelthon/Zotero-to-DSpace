@@ -172,7 +172,7 @@ class SpreadSheet:
 
         for key, value in tqdm(di.items()):
             # time.sleep(3)
-            # By-pass non-valid lines (caused by refworks output)
+            # By-pass non-valid lines or header
             if len(value) < 10 or str(value).startswith("['Reference Typ"):
                 # print('Empty key at: ' + str(key) + ' where value was: ' + str(value))
                 continue
@@ -652,7 +652,7 @@ if __name__ == "__main__":
     # parser.add_argument('--foo', action='store_true', help='foo help')
     # subparsers = parser.add_subparsers(help='sub-command help')
     parser.add_argument('-i', '--input-file', default=input_file,
-                        help='This is the filename of the input csv file from RefWorks. If none is specified, input.csv is used.',
+                        help='This is the filename of the input csv file from Zotero. If none is specified, input.csv is used.',
                         required=False)
     parser.add_argument('-o', '--output-file', default=output_file,
                         help='This is the filename of the generated csv file (to be imported to DSpace). If none is specified, output.csv is used.',
