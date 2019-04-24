@@ -239,9 +239,13 @@ class SpreadSheet:
                 col_num = list(map(int, str(self.metadata_without_language['dc.identifier.issn']).split(',')))
                 self.oDi[key]['dc.identifier.issn[]'] = self.create_issn(key, col_num)
 
+            # dc.contributor.orcid
             if add_orcid:
                 print("adding orcids")
-                self.populate_orcids(key, [3])
+                tmp_orcis = str(self.metadata_with_language['dc.contributor.author']) + ',' + str(self.metadata_with_language['dc.contributor.editor'])
+                # print(list(map(int, str(tmp_orcis).split(','))))
+                # print(list(map(int, str(self.metadata_with_language['dc.contributor.editor']).split(','))))
+                self.populate_orcids(key, list(map(int, str(tmp_orcis).split(','))))
 
             # dc.date.available (no language distinction)
             # self.oDi[key]['dc.date.available[]'] = self.csvRow[6].strip()
@@ -656,20 +660,17 @@ if __name__ == "__main__":
     output_file = args.output_file
     handle = args.handle
 
-    # obj = SpreadSheet(input_file, output_file, handle)
-    # obj.load_languages()
-    # obj.importCSV()
-    # obj.exportCSV()
+    obj = SpreadSheet(input_file, output_file, handle)
+    obj.load_languages()
+    obj.importCSV()
+    obj.exportCSV()
 
-    try:
-        #     input_file = args.input_file
-        #     output_file = args.output_file
-        #     handle = args.handle
-        #
-        obj = SpreadSheet(input_file, output_file, handle)
-        obj.load_languages()
-        obj.importCSV()
-        obj.exportCSV()
-
-    except AttributeError:
-        print ("\nUse -h for instructions.\n")
+    # try:
+    #
+    #     obj = SpreadSheet(input_file, output_file, handle)
+    #     obj.load_languages()
+    #     obj.importCSV()
+    #     obj.exportCSV()
+    #
+    # except AttributeError:
+    #     print ("\nUse -h for instructions.\n")
