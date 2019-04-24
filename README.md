@@ -31,8 +31,8 @@ pip install -r requirements.txt
 ```
 ./convert -i <filename.csv> -o <filename2.csv>
 ```
-###### Note 1: If no input file is declare with -i, input.csv is assumed.
-###### Note 2: If no output file is declare with -o, output.csv is assumed.
+###### Note 1: If no input file is declared with -i, input.csv is assumed.
+###### Note 2: If no output file is declared with -o, output.csv is assumed.
 
 ## Configuration
 - Set the equivalent of Zotero language in ISO format in ```languages_zotero.csv```. This is used to generate dc.language.iso
