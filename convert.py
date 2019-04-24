@@ -11,6 +11,9 @@ import re
 from stdnum import isbn, issn
 import yaml
 
+from tqdm import tqdm
+import time
+
 output_file = 'output.csv'
 input_file = 'input.csv'
 handle = '7/1234'
@@ -167,8 +170,8 @@ class SpreadSheet:
         Generate a dictionary with keys, the csv headers of the ending csv file
         '''
 
-        for key, value in di.items():
-
+        for key, value in tqdm(di.items()):
+            # time.sleep(3)
             # By-pass non-valid lines (caused by refworks output)
             if len(value) < 10 or str(value).startswith("['Reference Typ"):
                 # print('Empty key at: ' + str(key) + ' where value was: ' + str(value))
