@@ -14,14 +14,14 @@ import yaml
 output_file = 'output.csv'
 input_file = 'input.csv'
 handle = '7/1234'
+# orcid_file = None
 
 # configuration files
 ZOTERO_LANGUAGES = './settings/languages_zotero.csv'
 DSPACE_CSV_HEADER = './settings/dspace_csv_header.yml'
 METADATA_MAPPING = './settings/metadata_mapping.yml'
 ITEM_TYPES = './settings/types.yml'
-
-ORCID_FILE = './settings/ucy_orcid.csv'
+ORCID_FILE = './settings/orcid.csv'
 
 
 # temp variable (to be deleted)
@@ -30,10 +30,15 @@ add_orcid = True
 
 class SpreadSheet:
 
-    def __init__(self, input_file, output_file, handle):
+    def __init__(self, input_file, output_file, handle, add_orcids):
         self.input_file = input_file
         self.output_file = output_file
         self.handle = handle
+        self.add_orcids = add_orcids
+
+        # print(self.handle)
+        # print( self.orcid_file)
+
         self.di = OrderedDict()
         self.csvRow = None
         self.detected_languages = []
@@ -56,7 +61,8 @@ class SpreadSheet:
 
         self.languages_iso = {}
 
-        self.load_orcid()
+        if self.add_orcids:
+            self.load_orcid()
 
         """
         Load document types
@@ -87,6 +93,8 @@ class SpreadSheet:
         self.metadata_with_language = cfg_metadata_mapping['metadata_with_language']
         self.metadata_without_language = cfg_metadata_mapping['metadata_without_language']
 
+        self.load_languages()
+
     def load_languages(self):
         try:
             readdata = csv.reader(open(ZOTERO_LANGUAGES))
@@ -103,7 +111,7 @@ class SpreadSheet:
             sys.exit()
         self.orcid_list = {rows[0].strip() + ', ' + rows[1].strip(): rows[2].strip() for rows in readdata}
 
-        print(self.orcid_list)
+        # print(self.orcid_list)
 
     def exportCSV(self):
         with open(self.output_file, 'w') as csvfile:
@@ -240,8 +248,7 @@ class SpreadSheet:
                 self.oDi[key]['dc.identifier.issn[]'] = self.create_issn(key, col_num)
 
             # dc.contributor.orcid
-            if add_orcid:
-                print("adding orcids")
+            if self.add_orcids:
                 tmp_orcis = str(self.metadata_with_language['dc.contributor.author']) + ',' + str(self.metadata_with_language['dc.contributor.editor'])
                 # print(list(map(int, str(tmp_orcis).split(','))))
                 # print(list(map(int, str(self.metadata_with_language['dc.contributor.editor']).split(','))))
@@ -366,8 +373,6 @@ class SpreadSheet:
                 # print(orcid_dict[k])
 
         for k, v in orcid_dict.items():
-            print(k)
-            print(v)
             self.oDi[key][k] = v
         # return None
 
@@ -625,7 +630,7 @@ class SpreadSheet:
     def generate_csv_header_for_dspace(self):
         complete_header_list = self.initial_fieldnames
 
-        if add_orcid:
+        if self.add_orcids:
             complete_header_list.append("dc.contributor.orcid[]")
 
         for lang in self.searched_for_languages:
@@ -640,7 +645,7 @@ class SpreadSheet:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description='This is a script to convert RefWorks CSV export to DSpace CSV format.')
+        description='This is a script to convert Zotero CSV export to DSpace CSV format.')
     # parser.add_argument('--foo', action='store_true', help='foo help')
     # subparsers = parser.add_subparsers(help='sub-command help')
     parser.add_argument('-i', '--input-file', default=input_file,
@@ -649,8 +654,11 @@ if __name__ == "__main__":
     parser.add_argument('-o', '--output-file', default=output_file,
                         help='This is the filename of the generated csv file (to be imported to DSpace). If none is specified, output.csv is used.',
                         required=False)
-    parser.add_argument('-hdl', '--handle',
+    parser.add_argument('-hdl', '--handle', default=handle,
                         help='This is the collection handle (target collection) If none is specified, 7/1234 is used.',
+                        required=False)
+    parser.add_argument('-ao', '--add_orcids', action='store_true',
+                        help='Add ORCiDs from file. This CSV file includes 3 columns (surname, name, ORCiD).',
                         required=False)
     # parser_a.set_defaults(which='migrate')
 
@@ -659,18 +667,17 @@ if __name__ == "__main__":
     input_file = args.input_file
     output_file = args.output_file
     handle = args.handle
+    add_orcids = args.add_orcids
 
-    obj = SpreadSheet(input_file, output_file, handle)
-    obj.load_languages()
-    obj.importCSV()
-    obj.exportCSV()
+    # obj = SpreadSheet(input_file, output_file, handle)
+    # obj.importCSV()
+    # obj.exportCSV()
 
-    # try:
-    #
-    #     obj = SpreadSheet(input_file, output_file, handle)
-    #     obj.load_languages()
-    #     obj.importCSV()
-    #     obj.exportCSV()
-    #
-    # except AttributeError:
-    #     print ("\nUse -h for instructions.\n")
+    try:
+
+        obj = SpreadSheet(input_file, output_file, handle, add_orcids)
+        obj.importCSV()
+        obj.exportCSV()
+
+    except AttributeError:
+        print ("\nUse -h for instructions.\n")
