@@ -79,4 +79,4 @@ The file comprises of 3 sections:
     2. ```metadata_without_language```. These are fields that should not have their language detected. For example ```dc.source.uri[]``` column.    
     - On the left you have the DC field.
     - On the right you have the column number of Zotero's CSV file. CAUTION: numbering starts at zero (0)!
-- Set type translation in ```types.yml```. This configuration file allows to translate a Zotero type to a "friendlier" value in case you need to index it and present it to th end-user.
+- Set type translation in ```types.yml```. This configuration file allows to translate a Zotero type to a "friendlier" value in case you need to index it and present it to the end-user.
