@@ -5,7 +5,7 @@ Usage example: It is used to migrate data from Zotero to UCY's institutional rep
 
 $ ./convert.py -i input.csv -o a_filename.csv -ao
 Found records: 389
- 37%|███████████████████████████████████████▋                                                                       | 143/389 [00:03<00:06, 39.47it/s]
+ 37%|█                                                                       | 143/389 [00:03<00:06, 39.47it/s]
 
 ##### License: CC BY-NC-SA 4.0 (https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
