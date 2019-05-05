@@ -660,7 +660,7 @@ if __name__ == "__main__":
     parser.add_argument('-hdl', '--handle', default=handle,
                         help='This is the collection handle (target collection) If none is specified, 7/1234 is used.',
                         required=False)
-    parser.add_argument('-ao', '--add_orcids', action='store_true',
+    parser.add_argument('-ao', '--add-orcids', action='store_true',
                         help='Add ORCiDs from file. It loads ORCiDs from ./settings/orcid.csv. This CSV file includes 3 columns (surname, name, ORCiD).',
                         required=False)
     # parser_a.set_defaults(which='migrate')

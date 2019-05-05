@@ -48,7 +48,7 @@ optional arguments:
   -hdl HANDLE, --handle HANDLE
                         This is the collection handle (target collection) If
                         none is specified, 7/1234 is used.
-  -ao, --add_orcids     Add ORCiDs from file. It loads ORCiDs from
+  -ao, --add-orcids     Add ORCiDs from file. It loads ORCiDs from
                         ./settings/orcid.csv. This CSV file includes 3 columns
                         (surname, name, ORCiD).
 
