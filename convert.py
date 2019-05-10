@@ -27,10 +27,6 @@ ITEM_TYPES = './settings/types.yml'
 ORCID_FILE = './settings/orcid.csv'
 
 
-# temp variable (to be deleted)
-add_orcid = True
-
-
 class SpreadSheet:
 
     def __init__(self, input_file, output_file, handle, add_orcids):
