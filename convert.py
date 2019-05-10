@@ -326,7 +326,6 @@ class SpreadSheet:
         tmp_list = map(str.strip, tmp_list)
         # remove duplicates
         tmp_list = list(set(tmp_list))
-        # print(tmp_list)
         pattern = re.compile("[A-Z]{1,4}[0-9]{1,4}([.][0-9]{1,3})?([.][A-Z]?)?[0-9]+([\w ]+[0-9]{4})?")
         for item in tmp_list:
             item = item.strip()
@@ -354,8 +353,6 @@ class SpreadSheet:
         tmp_list = map(str.strip, tmp_list)
         # remove duplicates
         tmp_list = list(set(tmp_list))
-        # print(tmp_list)
-        # pattern = re.compile("[A-Z]{1,4}[0-9]{1,4}([.][0-9]{1,3})?([.][A-Z]?)?[0-9]+([\w ]+[0-9]{4})?")
         for item in tmp_list:
             item = item.strip()
             # if pattern.match(item):
@@ -369,11 +366,8 @@ class SpreadSheet:
                 else:
                     orcid_dict[k] += '||' + item + ' [' + self.orcid_list[item] + ']'
 
-                # print(orcid_dict[k])
-
         for k, v in orcid_dict.items():
             self.oDi[key][k] = v
-        # return None
 
     def create_isbn(self, key, var_list=None):
         tmp_list = []
