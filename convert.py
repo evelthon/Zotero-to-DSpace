@@ -68,29 +68,41 @@ class SpreadSheet:
         Translates Zotero types to preferred values of DSpace 
         (how we prefer each value)
         """
-        with open(ITEM_TYPES, 'r') as typefile:
-            cfg = yaml.load(typefile, Loader=yaml.FullLoader)
-        self.document_types = cfg['types']
-        # print(types)
+        try:
+            with open(ITEM_TYPES, 'r') as typefile:
+                cfg = yaml.load(typefile, Loader=yaml.FullLoader)
+            self.document_types = cfg['types']
+            # print(types)
+        except IOError as err:
+            print('Item Types file not found: ' + ITEM_TYPES)
+            sys.exit()
 
         """
         Load csv header values.
         These are the headers in DSpace's CSV file (to be generated)
         """
-        with open(DSPACE_CSV_HEADER, 'r') as dspace_csv_header_file:
-            cfg_dspace = yaml.load(dspace_csv_header_file, Loader=yaml.FullLoader)
-        self.initial_fieldnames = cfg_dspace['initial_fieldnames']
-        self.fieldnames_with_language = cfg_dspace['fieldnames_with_language']
-        self.fieldnames_with_no_language = cfg_dspace['fieldnames_with_no_language']
+        try:
+            with open(DSPACE_CSV_HEADER, 'r') as dspace_csv_header_file:
+                cfg_dspace = yaml.load(dspace_csv_header_file, Loader=yaml.FullLoader)
+            self.initial_fieldnames = cfg_dspace['initial_fieldnames']
+            self.fieldnames_with_language = cfg_dspace['fieldnames_with_language']
+            self.fieldnames_with_no_language = cfg_dspace['fieldnames_with_no_language']
+        except IOError as err:
+            print('DSpace CSV Header file not found: ' + DSPACE_CSV_HEADER)
+            sys.exit()
 
         """
         Load metadata mapping.
         Defines which value of Zotero goes to what DC variable.
         """
-        with open(METADATA_MAPPING, 'r') as metadata_mapping_file:
-            cfg_metadata_mapping = yaml.load(metadata_mapping_file, Loader=yaml.FullLoader)
-        self.metadata_with_language = cfg_metadata_mapping['metadata_with_language']
-        self.metadata_without_language = cfg_metadata_mapping['metadata_without_language']
+        try:
+            with open(METADATA_MAPPING, 'r') as metadata_mapping_file:
+                cfg_metadata_mapping = yaml.load(metadata_mapping_file, Loader=yaml.FullLoader)
+            self.metadata_with_language = cfg_metadata_mapping['metadata_with_language']
+            self.metadata_without_language = cfg_metadata_mapping['metadata_without_language']
+        except IOError as err:
+            print('Metadata Mapping file not found: ' + METADATA_MAPPING)
+            sys.exit()
 
         self.load_languages()
 
