@@ -227,7 +227,7 @@ class SpreadSheet:
 
             # dc.description.totalnumpages[]
             if 'dc.description.totalnumpages' in self.metadata_without_language:
-                num_col = int(self.metadata_without_language['dc.description.endingpage'])
+                num_col = int(self.metadata_without_language['dc.description.totalnumpages'])
                 self.oDi[key]['dc.description.totalnumpages[]'] = self.csvRow[num_col].strip()
 
             # dc.identifier.lc[]
