@@ -78,3 +78,5 @@ The file comprises of 3 sections:
     - On the left you have the DC field.
     - On the right you have the column number of Zotero's CSV file. CAUTION: numbering starts at zero (0)!
 - Set type translation in ```types.yml```. This configuration file allows to translate a Zotero type to a "friendlier" value in case you need to index it and present it to the end-user.
+
+###### Note: Any metadata field set in ```metadata_mapping.yml``` must also exist in ```dspace_csv_header.yml```

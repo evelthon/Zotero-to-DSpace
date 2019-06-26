@@ -210,8 +210,11 @@ class SpreadSheet:
 
             # dc.date.issued (no language distinction)
             if 'dc.date.issued' in self.metadata_without_language:
+                primary_var=None
+                sec_var=None
                 primary_var = int(self.metadata_without_language['dc.date.issued'].split(',')[0].strip())
-                sec_var = int(self.metadata_without_language['dc.date.issued'].split(',')[1].strip())
+                if self.metadata_without_language['dc.date.issued'].split(',')[1].strip():
+                    sec_var = int(self.metadata_without_language['dc.date.issued'].split(',')[1].strip())
                 self.oDi[key]['dc.date.issued[]'] = self.create_date_issued(primary_var, sec_var)
 
             # dc.description.startingpage
@@ -318,10 +321,10 @@ class SpreadSheet:
         else:
             return ''
 
-    def create_date_issued(self, primary_field, secondary_field):
-        if self.csvRow[primary_field].strip():
+    def create_date_issued(self, primary_field=None, secondary_field=None):
+        if primary_field is not None:
             return self.csvRow[primary_field].strip()
-        if self.csvRow[secondary_field].strip():
+        if secondary_field is not None:
             return self.csvRow[secondary_field].strip()
         return ''
 
