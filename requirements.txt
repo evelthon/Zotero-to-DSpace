@@ -1,5 +1,5 @@
 langid==1.1.6
 numpy==1.16.2
 python-stdnum==1.11
-PyYAML==5.1
+PyYAML==5.4
 tqdm==4.31.1
